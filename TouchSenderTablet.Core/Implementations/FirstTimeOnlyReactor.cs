@@ -9,7 +9,7 @@ namespace TouchSenderTablet.Core.Implementations
     {
         private bool _hasReceived = false;
         public event Action<TouchSenderEventArgs>? OnFirstReceive;
-        public void OnReceive(TouchSenderPayload payload)
+        public void Receive(TouchSenderPayload payload)
         {
             if (!_hasReceived)
             {

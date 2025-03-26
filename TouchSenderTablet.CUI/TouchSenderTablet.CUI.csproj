@@ -12,6 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="InputSimulatorPlus" Version="1.0.7" NoWarn="NU1701" />
   </ItemGroup>
 
   <ItemGroup>

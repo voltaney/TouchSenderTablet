@@ -22,7 +22,7 @@ namespace TouchSenderTablet.Core.Services
                     {
                         foreach (var reactor in _reactors)
                         {
-                            reactor.OnReceive(result.Payload!);
+                            reactor.Receive(result.Payload!);
                         }
                     }
                 }

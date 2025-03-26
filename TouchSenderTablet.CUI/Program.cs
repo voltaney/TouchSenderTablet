@@ -1,7 +1,10 @@
 ﻿using ConsoleAppFramework;
 
 using TouchSenderTablet.Core.Extensions;
+using TouchSenderTablet.Core.Implementations;
 using TouchSenderTablet.Core.Services;
+
+using WindowsInput;
 
 namespace TouchSenderTablet.CUI
 {
@@ -39,9 +42,37 @@ namespace TouchSenderTablet.CUI
         static async Task ListenTouchSenderAsync(int portNumber, CancellationToken cancellationToken)
         {
             var touchSenderReceiver = new TouchSenderReceiver();
-            touchSenderReceiver.AddFirstTimeOnlyReactor((e) =>
+            var inputSimulator = new InputSimulator();
+            touchSenderReceiver.AddReactor<FirstTimeOnlyReactor>((r) =>
             {
-                Console.WriteLine($"Received: {e.Payload}");
+                r.OnFirstReceive += (e) =>
+                {
+                    Console.WriteLine($"Received: {e.Payload}");
+                };
+            });
+            //touchSenderReceiver
+            int count = 0;
+            int sensitivity = 3000;
+            touchSenderReceiver.AddReactor<SingleTouchReactor>(r =>
+            {
+                r.OnReleased += (e) =>
+                {
+                    //Console.WriteLine($"Released!{count++}");
+                    inputSimulator.Mouse.LeftButtonUp();
+                };
+                r.OnTouched += (e) =>
+                {
+                    Console.WriteLine($"Touched! {count++}");
+                };
+                r.OnWhileTouched += (e) =>
+                {
+                    //Console.WriteLine($"{e.OffsetRatio}");
+                    if (e.OffsetRatio is null) return;
+                    inputSimulator.Mouse.LeftButtonDown();
+                    inputSimulator.Mouse.MoveMouseBy(
+                        (int)(e.OffsetRatio.X * sensitivity),
+                        (int)(e.OffsetRatio.Y * sensitivity));
+                };
             });
             Console.WriteLine($"Listening on port {portNumber}...");
             await touchSenderReceiver.StartAsync(portNumber, cancellationToken);
