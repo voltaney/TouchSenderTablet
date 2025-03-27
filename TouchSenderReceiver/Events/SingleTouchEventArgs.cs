@@ -1,6 +1,6 @@
 ﻿using TouchSenderInterpreter.Models;
 
-namespace TouchSenderTablet.Core.Events
+namespace TouchSenderReceiver.Events
 {
     public class SingleTouchEventArgs
     {

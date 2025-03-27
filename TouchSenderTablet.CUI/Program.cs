@@ -1,8 +1,9 @@
 ﻿using ConsoleAppFramework;
 
-using TouchSenderTablet.Core.Extensions;
-using TouchSenderTablet.Core.Implementations;
-using TouchSenderTablet.Core.Services;
+using TouchSenderReceiver.Extensions;
+using TouchSenderReceiver.Implementations;
+
+using TouchSenderReceiver.Services;
 
 using WindowsInput;
 
@@ -41,19 +42,17 @@ namespace TouchSenderTablet.CUI
         }
         static async Task ListenTouchSenderAsync(int portNumber, CancellationToken cancellationToken)
         {
-            var touchSenderReceiver = new TouchSenderReceiver();
+            var touchReceiver = new TouchReceiver();
             var inputSimulator = new InputSimulator();
-            touchSenderReceiver.AddReactor<FirstTimeOnlyReactor>((r) =>
+            touchReceiver.AddReactor<FirstTimeOnlyReactor>((r) =>
             {
                 r.OnFirstReceive += (e) =>
                 {
                     Console.WriteLine($"Received: {e.Payload}");
                 };
             });
-            //touchSenderReceiver
-            int count = 0;
             int sensitivity = 3000;
-            touchSenderReceiver.AddReactor<SingleTouchReactor>(r =>
+            touchReceiver.AddReactor<SingleTouchReactor>(r =>
             {
                 r.OnReleased += (e) =>
                 {
@@ -62,7 +61,7 @@ namespace TouchSenderTablet.CUI
                 };
                 r.OnTouched += (e) =>
                 {
-                    Console.WriteLine($"Touched! {count++}");
+                    //Console.WriteLine($"Touched! {count++}");
                 };
                 r.OnWhileTouched += (e) =>
                 {
@@ -71,11 +70,11 @@ namespace TouchSenderTablet.CUI
                     inputSimulator.Mouse.LeftButtonDown();
                     inputSimulator.Mouse.MoveMouseBy(
                         (int)(e.OffsetRatio.X * sensitivity),
-                        (int)(e.OffsetRatio.Y * sensitivity));
+                        (int)(e.OffsetRatio.Y * sensitivity * 0));
                 };
             });
             Console.WriteLine($"Listening on port {portNumber}...");
-            await touchSenderReceiver.StartAsync(portNumber, cancellationToken);
+            await touchReceiver.StartAsync(portNumber, cancellationToken);
         }
     }
 }

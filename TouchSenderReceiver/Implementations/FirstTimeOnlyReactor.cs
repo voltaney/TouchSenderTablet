@@ -1,21 +1,21 @@
 ﻿using TouchSenderInterpreter.Models;
 
-using TouchSenderTablet.Core.Events;
-using TouchSenderTablet.Core.Interfaces;
+using TouchSenderReceiver.Events;
+using TouchSenderReceiver.Interfaces;
 
-namespace TouchSenderTablet.Core.Implementations
+namespace TouchSenderReceiver.Implementations
 {
     public class FirstTimeOnlyReactor : ITouchSenderReactor
     {
         private bool _hasReceived = false;
-        public event Action<TouchSenderEventArgs>? OnFirstReceive;
+        public event Action<TouchReceiverEventArgs>? OnFirstReceive;
         public void Receive(TouchSenderPayload payload)
         {
             if (!_hasReceived)
             {
                 _hasReceived = true;
 
-                OnFirstReceive?.Invoke(new TouchSenderEventArgs { Payload = payload });
+                OnFirstReceive?.Invoke(new TouchReceiverEventArgs { Payload = payload });
             }
         }
     }

@@ -1,9 +1,9 @@
 ﻿using TouchSenderInterpreter.Models;
 
-using TouchSenderTablet.Core.Events;
-using TouchSenderTablet.Core.Interfaces;
+using TouchSenderReceiver.Events;
+using TouchSenderReceiver.Interfaces;
 
-namespace TouchSenderTablet.Core.Implementations
+namespace TouchSenderReceiver.Implementations
 {
     public class SingleTouchReactor : ITouchSenderReactor
     {

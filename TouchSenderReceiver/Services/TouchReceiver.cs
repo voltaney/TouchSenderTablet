@@ -2,11 +2,11 @@
 
 using TouchSenderInterpreter;
 
-using TouchSenderTablet.Core.Interfaces;
+using TouchSenderReceiver.Interfaces;
 
-namespace TouchSenderTablet.Core.Services
+namespace TouchSenderReceiver.Services
 {
-    public class TouchSenderReceiver
+    public class TouchReceiver
     {
         protected List<ITouchSenderReactor> _reactors = [];
         public async Task StartAsync(int portNumber, CancellationToken cancellationToken)

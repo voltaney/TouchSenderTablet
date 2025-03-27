@@ -1,6 +1,6 @@
 ﻿using TouchSenderInterpreter.Models;
 
-namespace TouchSenderTablet.Core.Interfaces
+namespace TouchSenderReceiver.Interfaces
 {
     public interface ITouchSenderReactor
     {

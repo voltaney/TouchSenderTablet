@@ -1,8 +1,8 @@
 ﻿using TouchSenderInterpreter.Models;
 
-namespace TouchSenderTablet.Core.Events
+namespace TouchSenderReceiver.Events
 {
-    public class TouchSenderEventArgs
+    public class TouchReceiverEventArgs
     {
         public required TouchSenderPayload Payload { get; init; }
     }
