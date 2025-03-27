@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "TouchSenderTablet.GUI (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "TouchSenderTablet.GUI (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
