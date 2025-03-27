@@ -3,7 +3,7 @@
 using TouchSenderReceiver.Events;
 using TouchSenderReceiver.Interfaces;
 
-namespace TouchSenderReceiver.Implementations
+namespace TouchSenderReceiver.Reactors
 {
     public class SingleTouchReactor : ITouchSenderReactor
     {

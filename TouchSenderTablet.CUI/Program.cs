@@ -1,8 +1,7 @@
 ﻿using ConsoleAppFramework;
 
 using TouchSenderReceiver.Extensions;
-using TouchSenderReceiver.Implementations;
-
+using TouchSenderReceiver.Reactors;
 using TouchSenderReceiver.Services;
 
 using WindowsInput;
