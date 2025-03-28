@@ -6,7 +6,6 @@ using TouchSenderTablet.GUI.Core.Helpers;
 using TouchSenderTablet.GUI.Helpers;
 using TouchSenderTablet.GUI.Models;
 
-using Windows.ApplicationModel;
 using Windows.Storage;
 
 namespace TouchSenderTablet.GUI.Services;

@@ -1,9 +1,8 @@
 ﻿using TouchSenderInterpreter.Models;
 
-namespace TouchSenderReceiver.Interfaces
+namespace TouchSenderReceiver.Interfaces;
+
+public interface ITouchSenderReactor
 {
-    public interface ITouchSenderReactor
-    {
-        void Receive(TouchSenderPayload payload);
-    }
+    void Receive(TouchSenderPayload payload);
 }

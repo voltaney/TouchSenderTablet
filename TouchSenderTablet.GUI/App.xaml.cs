@@ -6,7 +6,6 @@ using TouchSenderTablet.GUI.Activation;
 using TouchSenderTablet.GUI.Contracts.Services;
 using TouchSenderTablet.GUI.Core.Contracts.Services;
 using TouchSenderTablet.GUI.Core.Services;
-using TouchSenderTablet.GUI.Helpers;
 using TouchSenderTablet.GUI.Models;
 using TouchSenderTablet.GUI.Services;
 using TouchSenderTablet.GUI.ViewModels;
@@ -90,7 +89,7 @@ public partial class App : Application
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
     }
 
-    protected async override void OnLaunched(LaunchActivatedEventArgs args)
+    protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
         base.OnLaunched(args);
 

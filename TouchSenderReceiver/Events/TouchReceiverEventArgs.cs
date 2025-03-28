@@ -1,9 +1,8 @@
 ﻿using TouchSenderInterpreter.Models;
 
-namespace TouchSenderReceiver.Events
+namespace TouchSenderReceiver.Events;
+
+public class TouchReceiverEventArgs
 {
-    public class TouchReceiverEventArgs
-    {
-        public required TouchSenderPayload Payload { get; init; }
-    }
+    public required TouchSenderPayload Payload { get; init; }
 }
