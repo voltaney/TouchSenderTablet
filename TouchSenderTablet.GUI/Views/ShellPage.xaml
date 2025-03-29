@@ -71,18 +71,20 @@
                     </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
                 </behaviors:NavigationViewHeaderBehavior>
             </i:Interaction.Behaviors>
-            <Grid Margin="{StaticResource NavigationViewPageContentMargin}">
-                <Grid>
-                    <!--
-                        Use grid to make the stackpane left-aligned streachable with a max width
-                        ref:https://stackoverflow.com/a/280402
-                    -->
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" MaxWidth="1000" />
-                    </Grid.ColumnDefinitions>
-                    <Frame x:Name="NavigationFrame" HorizontalAlignment="Stretch" />
+            <ScrollViewer HorizontalScrollMode="Auto" VerticalScrollMode="Auto">
+                <Grid Margin="{StaticResource NavigationViewPageContentMargin}" Padding="0,0,0,24">
+                    <Grid>
+                        <!--
+                            Use grid to make the stackpane left-aligned streachable with a max width
+                            ref:https://stackoverflow.com/a/280402
+                        -->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" MaxWidth="1000" />
+                        </Grid.ColumnDefinitions>
+                        <Frame x:Name="NavigationFrame" HorizontalAlignment="Stretch" />
+                    </Grid>
                 </Grid>
-            </Grid>
+            </ScrollViewer>
         </NavigationView>
     </Grid>
 </Page>

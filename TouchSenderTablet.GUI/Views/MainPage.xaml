@@ -4,9 +4,177 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
+    <Page.Resources>
+        <!--  Spacing between cards  -->
+        <x:Double x:Key="SettingsCardSpacing">4</x:Double>
+        <Style x:Key="Card" TargetType="StackPanel">
+            <Style.Setters>
+                <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+                <Setter Property="Padding" Value="20" />
+            </Style.Setters>
+        </Style>
+        <Style
+            x:Key="MainHeaderTextBlockStyle"
+            BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+            TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,0,0,12" />
+            </Style.Setters>
+        </Style>
+        <Style
+            x:Key="SettingsSectionHeaderTextBlockStyle"
+            BasedOn="{StaticResource MainHeaderTextBlockStyle}"
+            TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,16,0,12" />
+            </Style.Setters>
+        </Style>
+    </Page.Resources>
 
-    <Grid x:Name="ContentArea">
-        
-    </Grid>
+    <StackPanel HorizontalAlignment="Stretch" Spacing="0">
+        <Grid Name="MainContainer">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Top">
+                <TextBlock Style="{StaticResource MainHeaderTextBlockStyle}" Text="Operations" />
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="10"
+                    Style="{StaticResource Card}">
+                    <Button Style="{StaticResource AccentButtonStyle}">
+                        <!--
+                            ref: https://learn.microsoft.com/ja-jp/windows/apps/design/style/icons
+                        -->
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <SymbolIcon Symbol="Play" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="Start" />
+                        </StackPanel>
+
+                    </Button>
+                    <Button Style="{StaticResource DefaultButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <SymbolIcon Symbol="Pause" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="Stop" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+        </Grid>
+        <StackPanel Name="SettingsContainer">
+
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Settings" />
+            <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+                <toolkit:SettingsCard
+                    Description="Set the IP address shown here as the destination for the ZigSim application."
+                    Header="Your Possible Local IPs"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE701;}">
+                    <TextBlock
+                        FontWeight="Bold"
+                        Foreground="{StaticResource AccentTextFillColorPrimaryBrush}"
+                        Text="" />
+
+                </toolkit:SettingsCard>
+                <toolkit:SettingsCard
+                    Description="Enter the port number used by the ZigSim application. The default value is 50000."
+                    Header="Port Number"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xF0B9;}">
+                    <NumberBox
+                        AcceptsExpression="False"
+                        PlaceholderText="50000"
+                        Value="" />
+
+                </toolkit:SettingsCard>
+                <toolkit:SettingsExpander
+                    Description="Settings for touch input from ZigSim"
+                    Header="Touch Inputs"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE70A;}"
+                    IsExpanded="True">
+
+                    <toolkit:SettingsExpander.Items>
+                        <toolkit:SettingsCard Header="Left click while touching the device" HeaderIcon="{ui:FontIcon Glyph=&#xE7C9;}">
+                            <ToggleSwitch IsEnabled="True" IsOn="True" />
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard Header="Landscape mode" HeaderIcon="{ui:FontIcon Glyph=&#xE799;}">
+                            <ToggleSwitch />
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard Header="Horizontal mouse sensitivity" HeaderIcon="{ui:FontIcon Glyph=&#xE8AB;}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="*"
+                                        MinWidth="200"
+                                        MaxWidth="400" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Slider
+                                    x:Name="HorizontalSensitivitySlider"
+                                    MaxWidth="400"
+                                    HorizontalAlignment="Stretch"
+                                    Maximum="5000"
+                                    Minimum="0"
+                                    TickFrequency="1000"
+                                    TickPlacement="Outside" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Width="40"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ElementName=HorizontalSensitivitySlider, Path=Value}"
+                                    TextAlignment="Right" />
+                            </Grid>
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard Header="Vertical mouse sensitivity" HeaderIcon="{ui:FontIcon Glyph=&#xE8CB;}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="*"
+                                        MinWidth="200"
+                                        MaxWidth="400" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Slider
+                                    x:Name="VerticalSensitivitySlider"
+                                    MaxWidth="400"
+                                    HorizontalAlignment="Stretch"
+                                    Maximum="5000"
+                                    Minimum="0"
+                                    TickFrequency="1000"
+                                    TickPlacement="Outside" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Width="40"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ElementName=VerticalSensitivitySlider, Path=Value}"
+                                    TextAlignment="Right" />
+                            </Grid>
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard
+                            Description="Depending on the orientation of the phone, the positive and negative values of the coordinates are reversed."
+                            Header="Invert axes"
+                            HeaderIcon="{ui:FontIcon Glyph=&#xE94D;}">
+                            <ToggleSwitch />
+                        </toolkit:SettingsCard>
+                    </toolkit:SettingsExpander.Items>
+                </toolkit:SettingsExpander>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+
 </Page>
