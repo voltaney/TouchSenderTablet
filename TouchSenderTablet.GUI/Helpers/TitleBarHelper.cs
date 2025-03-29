@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -86,6 +87,7 @@ internal class TitleBarHelper
 
     public static void ApplySystemThemeToCaptionButtons()
     {
+        Debug.Print("APPPPPLL");
         var frame = App.AppTitlebar as FrameworkElement;
         if (frame != null)
         {
