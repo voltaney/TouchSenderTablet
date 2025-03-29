@@ -72,7 +72,16 @@
                 </behaviors:NavigationViewHeaderBehavior>
             </i:Interaction.Behaviors>
             <Grid Margin="{StaticResource NavigationViewPageContentMargin}">
-                <Frame x:Name="NavigationFrame" />
+                <Grid>
+                    <!--
+                        Use grid to make the stackpane left-aligned streachable with a max width
+                        ref:https://stackoverflow.com/a/280402
+                    -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MaxWidth="1000" />
+                    </Grid.ColumnDefinitions>
+                    <Frame x:Name="NavigationFrame" HorizontalAlignment="Stretch" />
+                </Grid>
             </Grid>
         </NavigationView>
     </Grid>
