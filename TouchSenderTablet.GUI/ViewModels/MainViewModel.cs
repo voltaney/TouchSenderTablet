@@ -109,7 +109,10 @@ public partial class MainViewModel : ObservableRecipient
         _touchReceiverService.SetOptions(_serviceOptions);
         _touchReceiverTask = _touchReceiverService.StartAsync(token);
         // 約100fpsで描画
-        _touchReceiverCanvasService.Start(new TimeSpan(0, 0, 0, 0, 1000 / s_canvasFps));
+        if (IsTouchReceiverCanvasEnabled)
+        {
+            _touchReceiverCanvasService.Start(new TimeSpan(0, 0, 0, 0, 1000 / s_canvasFps));
+        }
 
         StopTouchReceiverServiceCommand.NotifyCanExecuteChanged();
         try
