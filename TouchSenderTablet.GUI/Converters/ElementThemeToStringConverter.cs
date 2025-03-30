@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace TouchSenderTablet.GUI.Converters;
 
-public class ElementThemeToStringConverter : IValueConverter
+public partial class ElementThemeToStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

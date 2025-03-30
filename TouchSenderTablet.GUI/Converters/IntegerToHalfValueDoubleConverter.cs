@@ -3,7 +3,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace TouchSenderTablet.GUI.Converters;
 
-class IntegerToHalfValueDoubleConverter : IValueConverter
+public partial class IntegerToHalfValueDoubleConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

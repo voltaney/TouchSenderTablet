@@ -3,7 +3,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace TouchSenderTablet.GUI.Converters;
 
-public class EnumToBooleanConverter : IValueConverter
+public partial class EnumToBooleanConverter : IValueConverter
 {
     public EnumToBooleanConverter()
     {
