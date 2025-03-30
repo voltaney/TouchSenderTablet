@@ -110,7 +110,7 @@
                                 Width="{x:Bind ViewModel.TouchCircleSize}"
                                 Height="{x:Bind ViewModel.TouchCircleSize}"
                                 Canvas.ZIndex="10"
-                                Fill="{ThemeResource SystemFillColorSuccessBrush}" />
+                                Fill="{ThemeResource TouchCircleColor}" />
                             <Line
                                 Stroke="{ThemeResource ControlStrokeColorSecondaryBrush}"
                                 StrokeThickness="2"
