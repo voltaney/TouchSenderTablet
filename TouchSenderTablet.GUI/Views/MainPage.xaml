@@ -176,10 +176,7 @@
                     IsExpanded="{x:Bind ViewModel.IsTouchInputsSettingsExpanded, Mode=TwoWay}">
 
                     <toolkit:SettingsExpander.Items>
-                        <toolkit:SettingsCard
-                            Header="Left click while touching the device"
-                            HeaderIcon="{ui:FontIcon Glyph=&#xE7C9;}"
-                            IsEnabled="{x:Bind ViewModel.StartTouchReceiverServiceCommand.IsRunning, Mode=OneWay, Converter={StaticResource InvertedBooleanConverter}}">
+                        <toolkit:SettingsCard Header="Left click while touching the device" HeaderIcon="{ui:FontIcon Glyph=&#xE7C9;}">
                             <ToggleSwitch IsEnabled="True" IsOn="{x:Bind ViewModel.LeftClickWhileTouched, Mode=TwoWay}" />
                         </toolkit:SettingsCard>
                         <toolkit:SettingsCard Header="Horizontal mouse sensitivity" HeaderIcon="{ui:FontIcon Glyph=&#xE8AB;}">

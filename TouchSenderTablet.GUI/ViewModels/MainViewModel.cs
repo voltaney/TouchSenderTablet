@@ -65,12 +65,12 @@ public partial class MainViewModel : ObservableRecipient
     #endregion
 
     #region Monitor Properties
-    private static readonly int s_defaultCanvasWidth = 220;
+    private static readonly int s_defaultCanvasSize = 220;
     private static readonly int s_canvasFps = 100;
     [ObservableProperty]
-    public partial int CanvasWidth { get; set; } = s_defaultCanvasWidth;
+    public partial int CanvasWidth { get; set; } = s_defaultCanvasSize;
     [ObservableProperty]
-    public partial int CanvasHeight { get; set; } = s_defaultCanvasWidth;
+    public partial int CanvasHeight { get; set; } = s_defaultCanvasSize;
     [ObservableProperty]
     public partial int TouchCircleX { get; set; }
     [ObservableProperty]
@@ -84,7 +84,8 @@ public partial class MainViewModel : ObservableRecipient
         _touchReceiverSettingsService = touchReceiverSettingsService;
         _touchReceiverService = touchReceiverService;
         _touchReceiverCanvasService = touchReceiverCanvasService;
-        _touchReceiverCanvasService.InitializeCanvas(_maxCanvasSize, TouchCircleSize, s_defaultCanvasWidth);
+        SetInitialCanvas();
+        _touchReceiverCanvasService.InitializeCanvas(_maxCanvasSize, TouchCircleSize, s_defaultCanvasSize);
         _touchReceiverCanvasService.SetUpdateHandler((service) =>
         {
             IsDataReceived = _touchReceiverService.IsDataReceived;
@@ -99,6 +100,12 @@ public partial class MainViewModel : ObservableRecipient
 
         var candidateIpAddresses = NetworkHelper.GetAllLocalIPv4();
         IpAddresses = candidateIpAddresses.Count > 0 ? string.Join(" / ", NetworkHelper.GetAllLocalIPv4()) : "Unknown";
+    }
+
+    private void SetInitialCanvas()
+    {
+        TouchCircleX = (CanvasWidth - TouchCircleSize) / 2;
+        TouchCircleY = (CanvasHeight - TouchCircleSize) / 2;
     }
 
     public async Task SaveOptions()

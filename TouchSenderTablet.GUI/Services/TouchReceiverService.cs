@@ -27,10 +27,20 @@ public class TouchReceiverService : ITouchReceiverService
             r.OnWhileTouched += (e) =>
             {
                 if (e.LongSideOffsetRatio is null) return;
-                //inputSimulator.Mouse.LeftButtonDown();
+                if (options.LeftClickWhileTouched)
+                {
+                    inputSimulator.Mouse.LeftButtonDown();
+                }
                 inputSimulator.Mouse.MoveMouseBy(
                     (int)(e.LongSideOffsetRatio.X * options.HorizontalSensitivity),
                     (int)(e.LongSideOffsetRatio.Y * options.VerticalSensitivity));
+            };
+            r.OnReleased += (e) =>
+            {
+                if (options.LeftClickWhileTouched)
+                {
+                    inputSimulator.Mouse.LeftButtonUp();
+                }
             };
         });
         _receiver.AddReactor<RawPayloadReactor>((r) =>
