@@ -67,7 +67,7 @@
                         </StackPanel>
 
                     </Button>
-                    <Button Command="{x:Bind ViewModel.StopTouchReceiverServiceCommand}" Style="{StaticResource DefaultButtonStyle}">
+                    <Button Command="{x:Bind ViewModel.StopTouchReceiverServiceCommand}" Style="{StaticResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="4">
                             <SymbolIcon Symbol="Pause" />
                             <TextBlock
