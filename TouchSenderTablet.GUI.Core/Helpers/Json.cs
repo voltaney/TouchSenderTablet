@@ -8,7 +8,14 @@ public static class Json
     {
         return await Task.Run<T>(() =>
         {
-            return JsonConvert.DeserializeObject<T>(value);
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(value);
+            }
+            catch (Newtonsoft.Json.JsonReaderException)
+            {
+                return default;
+            }
         });
     }
 
