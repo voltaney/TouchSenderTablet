@@ -87,6 +87,7 @@ public partial class MainViewModel : ObservableRecipient
         _touchReceiverCanvasService.InitializeCanvas(_maxCanvasSize, TouchCircleSize, s_defaultCanvasWidth);
         _touchReceiverCanvasService.SetUpdateHandler((service) =>
         {
+            IsDataReceived = _touchReceiverService.IsDataReceived;
             CanvasWidth = (int)service.CanvasSize.Width;
             CanvasHeight = (int)service.CanvasSize.Height;
             TouchCircleX = (int)service.TouchCirclePosition.X;
@@ -135,6 +136,10 @@ public partial class MainViewModel : ObservableRecipient
                 Message = "Please check the network settings and try again.",
             });
         }
+        finally
+        {
+            IsDataReceived = false;
+        }
         StartTouchReceiverServiceCommand.NotifyCanExecuteChanged();
         StopTouchReceiverServiceCommand.NotifyCanExecuteChanged();
     }
@@ -144,6 +149,7 @@ public partial class MainViewModel : ObservableRecipient
     {
         StartTouchReceiverServiceCommand.Cancel();
         _touchReceiverCanvasService.Stop();
+        IsDataReceived = false;
     }
     private bool CanStartTouchReceiverService() => !IsTouchReceiverServiceRunning();
     private bool CanStopTouchReceiverService() => IsTouchReceiverServiceRunning();

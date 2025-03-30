@@ -14,6 +14,7 @@ public class TouchReceiverService : ITouchReceiverService
 {
     private TouchReceiver? _receiver;
     public TouchSenderPayload? CurrentPayload { get; private set; }
+    public bool IsDataReceived => CurrentPayload is not null;
     private int _portNumber;
 
     public void SetOptions(TouchReceiverServiceOptions options)
@@ -45,6 +46,7 @@ public class TouchReceiverService : ITouchReceiverService
     {
         if (_receiver != null)
         {
+            CurrentPayload = null;
             await _receiver.StartAsync(_portNumber, token);
         }
     }
