@@ -57,6 +57,9 @@ public partial class App : Application
 
             // Services
             services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
+            services.AddSingleton<ITouchReceiverSettingsService, TouchReceiverSettingsService>();
+            services.AddSingleton<ITouchReceiverCanvasService, TouchReceiverCanvasService>();
+            services.AddSingleton<ITouchReceiverService, TouchReceiverService>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
             services.AddTransient<INavigationViewService, NavigationViewService>();
 

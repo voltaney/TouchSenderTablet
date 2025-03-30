@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 
-namespace TouchSenderTablet.GUI.Helpers;
+namespace TouchSenderTablet.GUI.Converters;
 
 public class EnumToBooleanConverter : IValueConverter
 {

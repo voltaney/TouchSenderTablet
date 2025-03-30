@@ -2,7 +2,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 
-namespace TouchSenderTablet.GUI.Helpers;
+namespace TouchSenderTablet.GUI.Converters;
 
 internal class ElementThemeToStringConverter : IValueConverter
 {
