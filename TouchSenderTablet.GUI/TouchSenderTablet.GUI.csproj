@@ -19,6 +19,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Styles\CanvasColor.xaml" />
+    <None Remove="Views\ErrorDialogContent.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +48,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\ErrorDialogContent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Styles\CanvasColor.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

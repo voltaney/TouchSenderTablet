@@ -163,6 +163,8 @@
                     IsEnabled="{x:Bind ViewModel.StartTouchReceiverServiceCommand.IsRunning, Mode=OneWay, Converter={StaticResource InvertedBooleanConverter}}">
                     <NumberBox
                         AcceptsExpression="False"
+                        Maximum="65535"
+                        Minimum="0"
                         PlaceholderText="50000"
                         Value="{x:Bind ViewModel.PortNumber, Mode=TwoWay}" />
 

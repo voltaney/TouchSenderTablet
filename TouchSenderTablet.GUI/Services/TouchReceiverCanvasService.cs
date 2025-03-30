@@ -80,7 +80,7 @@ class TouchReceiverCanvasService : ITouchReceiverCanvasService
     {
         if (_timer.IsEnabled)
         {
-            throw new InvalidOperationException("Timer is already running.");
+            Stop();
         }
         if (!_isInitialized)
         {

@@ -1,4 +1,11 @@
-﻿using TouchSenderTablet.GUI.Helpers;
+﻿using CommunityToolkit.Mvvm.Messaging;
+
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+
+using TouchSenderTablet.GUI.Helpers;
+using TouchSenderTablet.GUI.Models;
+using TouchSenderTablet.GUI.Views;
 
 using Windows.UI.ViewManagement;
 
@@ -22,6 +29,8 @@ public sealed partial class MainWindow : WindowEx
         _dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
         _settings = new UISettings();
         _settings.ColorValuesChanged += Settings_ColorValuesChanged; // cannot use FrameworkElement.ActualThemeChanged event
+
+        WeakReferenceMessenger.Default.Register<ShowErrorDialogMessage>(this, showErrorDialogAsync);
     }
 
     // this handles updating the caption button colors correctly when indows system theme is changed
@@ -33,5 +42,20 @@ public sealed partial class MainWindow : WindowEx
         {
             TitleBarHelper.ApplySystemThemeToCaptionButtons();
         });
+    }
+
+    private async void showErrorDialogAsync(object recipient, ShowErrorDialogMessage message)
+    {
+        var dialog = new ContentDialog
+        {
+            XamlRoot = Content.XamlRoot,
+            Title = message.Title,
+            CloseButtonText = "Close",
+            //Content = $"{message.Message}\n\n<Detail>\n{message.Error.Message}",
+            RequestedTheme = ((FrameworkElement)Content).ActualTheme,
+            Content = new ErrorDialogContent { ErrorMessage = message.Message ?? "", ErrorDetail = message.Error.Message }
+        };
+
+        var result = await dialog.ShowAsync();
     }
 }

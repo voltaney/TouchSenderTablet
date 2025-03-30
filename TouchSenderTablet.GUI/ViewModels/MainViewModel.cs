@@ -1,5 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Net.Sockets;
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
 using TouchSenderReceiver.Helpers;
 
@@ -122,6 +125,15 @@ public partial class MainViewModel : ObservableRecipient
         catch (OperationCanceledException)
         {
             // ignore
+        }
+        catch (SocketException e)
+        {
+            WeakReferenceMessenger.Default.Send(new ShowErrorDialogMessage()
+            {
+                Title = "Network Error",
+                Error = e,
+                Message = "Please check the network settings and try again.",
+            });
         }
         StartTouchReceiverServiceCommand.NotifyCanExecuteChanged();
         StopTouchReceiverServiceCommand.NotifyCanExecuteChanged();
