@@ -1,6 +1,5 @@
 ﻿using ConsoleAppFramework;
 
-using TouchSenderReceiver.Extensions;
 using TouchSenderReceiver.Reactors;
 using TouchSenderReceiver.Services;
 

@@ -5,7 +5,7 @@ using TouchSenderReceiver.Interfaces;
 
 namespace TouchSenderReceiver.Reactors;
 
-public class SingleTouchReactor : ITouchSenderReactor
+public class SingleTouchReactor : ITouchReceiverReactor
 {
     private SingleTouch? _previous;
     private SingleTouch? _previousRatio;
@@ -24,6 +24,8 @@ public class SingleTouchReactor : ITouchSenderReactor
     {
         var args = new SingleTouchEventArgs
         {
+            DeviceWidth = payload.DeviceInfo.Width,
+            DeviceHeight = payload.DeviceInfo.Height,
             Current = payload.SingleTouch,
             CurrentRatio = payload.SingleTouchRatio,
             Previous = _previous,

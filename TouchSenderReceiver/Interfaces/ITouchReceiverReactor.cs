@@ -2,7 +2,7 @@
 
 namespace TouchSenderReceiver.Interfaces;
 
-public interface ITouchSenderReactor
+public interface ITouchReceiverReactor
 {
     void Receive(TouchSenderPayload payload);
 }

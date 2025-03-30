@@ -8,7 +8,7 @@ namespace TouchSenderReceiver.Services;
 
 public class TouchReceiver
 {
-    protected List<ITouchSenderReactor> _reactors = [];
+    protected List<ITouchReceiverReactor> _reactors = [];
     public async Task StartAsync(int portNumber, CancellationToken cancellationToken)
     {
         // UDPでデータを受信
@@ -29,8 +29,15 @@ public class TouchReceiver
         }
     }
 
-    public void AddReactor(ITouchSenderReactor reactor)
+    public void AddReactor(ITouchReceiverReactor reactor)
     {
         _reactors.Add(reactor);
+    }
+
+    public void AddReactor<T>(Action<T> configureReactor) where T : ITouchReceiverReactor, new()
+    {
+        var reactor = new T();
+        configureReactor(reactor);
+        AddReactor(reactor);
     }
 }

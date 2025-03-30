@@ -5,7 +5,7 @@ using TouchSenderReceiver.Interfaces;
 
 namespace TouchSenderReceiver.Reactors;
 
-public class FirstTimeOnlyReactor : ITouchSenderReactor
+public class FirstTimeOnlyReactor : ITouchReceiverReactor
 {
     private bool _hasReceived = false;
     public event Action<TouchReceiverEventArgs>? OnFirstReceive;
