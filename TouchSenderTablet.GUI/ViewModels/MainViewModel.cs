@@ -5,7 +5,6 @@ using TouchSenderReceiver.Helpers;
 
 using TouchSenderTablet.GUI.Contracts.Services;
 using TouchSenderTablet.GUI.Models;
-using TouchSenderTablet.GUI.Services;
 
 namespace TouchSenderTablet.GUI.ViewModels;
 

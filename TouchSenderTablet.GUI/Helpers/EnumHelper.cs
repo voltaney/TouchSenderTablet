@@ -20,6 +20,6 @@ internal static class EnumHelper
         {
             throw new InvalidOperationException("Generic parameter 'TEnum' must be an enum.");
         }
-        return (TEnum)Enum.Parse(typeof(TEnum), text);
+        return Enum.Parse<TEnum>(text);
     }
 }

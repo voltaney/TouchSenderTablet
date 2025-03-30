@@ -1,6 +1,6 @@
 ﻿using Windows.Foundation;
 
-namespace TouchSenderTablet.GUI.Services;
+namespace TouchSenderTablet.GUI.Contracts.Services;
 
 public interface ITouchReceiverCanvasService
 {

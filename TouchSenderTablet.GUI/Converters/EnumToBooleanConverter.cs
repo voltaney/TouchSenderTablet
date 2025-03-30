@@ -18,7 +18,7 @@ public class EnumToBooleanConverter : IValueConverter
                 throw new ArgumentException("ExceptionEnumToBooleanConverterValueMustBeAnEnum");
             }
 
-            var enumValue = Enum.Parse(typeof(ElementTheme), enumString);
+            var enumValue = Enum.Parse<ElementTheme>(enumString);
 
             return enumValue.Equals(value);
         }
@@ -30,7 +30,7 @@ public class EnumToBooleanConverter : IValueConverter
     {
         if (parameter is string enumString)
         {
-            return Enum.Parse(typeof(ElementTheme), enumString);
+            return Enum.Parse<ElementTheme>(enumString);
         }
 
         throw new ArgumentException("ExceptionEnumToBooleanConverterParameterMustBeAnEnumName");
