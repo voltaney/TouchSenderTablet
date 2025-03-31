@@ -30,7 +30,7 @@ public sealed partial class MainWindow : WindowEx
         _settings = new UISettings();
         _settings.ColorValuesChanged += Settings_ColorValuesChanged; // cannot use FrameworkElement.ActualThemeChanged event
 
-        WeakReferenceMessenger.Default.Register<ShowErrorDialogMessage>(this, showErrorDialogAsync);
+        WeakReferenceMessenger.Default.Register<ShowErrorDialogMessage>(this, ShowErrorDialogAsync);
     }
 
     // this handles updating the caption button colors correctly when indows system theme is changed
@@ -44,18 +44,17 @@ public sealed partial class MainWindow : WindowEx
         });
     }
 
-    private async void showErrorDialogAsync(object recipient, ShowErrorDialogMessage message)
+    private async void ShowErrorDialogAsync(object recipient, ShowErrorDialogMessage message)
     {
         var dialog = new ContentDialog
         {
             XamlRoot = Content.XamlRoot,
             Title = message.Title,
             CloseButtonText = "Close",
-            //Content = $"{message.Message}\n\n<Detail>\n{message.Error.Message}",
             RequestedTheme = ((FrameworkElement)Content).ActualTheme,
-            Content = new ErrorDialogContent { ErrorMessage = message.Message ?? "", ErrorDetail = message.Error.Message }
+            Content = new ErrorDialogContent { ErrorMessage = message.Message ?? "", ErrorDetail = message.Error?.Message ?? "" }
         };
 
-        var result = await dialog.ShowAsync();
+        await dialog.ShowAsync();
     }
 }

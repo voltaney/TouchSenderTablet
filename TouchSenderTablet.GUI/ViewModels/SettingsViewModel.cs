@@ -4,11 +4,13 @@ using System.Windows.Input;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
 using Microsoft.UI.Xaml;
 
 using TouchSenderTablet.GUI.Contracts.Services;
 using TouchSenderTablet.GUI.Helpers;
+using TouchSenderTablet.GUI.Models;
 
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -101,13 +103,20 @@ public partial class SettingsViewModel : ObservableRecipient
 
         if (logFile is null)
         {
-            return;
+            WeakReferenceMessenger.Default.Send(new ShowErrorDialogMessage()
+            {
+                Title = "File Not Found",
+                Message = "No log files have been generated yet.",
+            });
         }
-        Process.Start(new ProcessStartInfo
+        else
         {
-            FileName = "explorer",
-            Arguments = $"/select,\"{logFile.Path}\"",
-            UseShellExecute = true
-        });
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "explorer",
+                Arguments = $"/select,\"{logFile.Path}\"",
+                UseShellExecute = true
+            });
+        }
     }
 }
