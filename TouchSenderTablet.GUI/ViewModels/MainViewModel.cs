@@ -4,6 +4,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
+using Microsoft.Extensions.Logging;
+
 using TouchSenderReceiver.Helpers;
 
 using TouchSenderTablet.GUI.Contracts.Services;
@@ -16,6 +18,7 @@ public partial class MainViewModel : ObservableRecipient
     private readonly ITouchReceiverSettingsService _touchReceiverSettingsService;
     private readonly ITouchReceiverService _touchReceiverService;
     private readonly ITouchReceiverCanvasService _touchReceiverCanvasService;
+    private readonly ILogger _logger;
     private readonly TouchReceiverServiceOptions _serviceOptions;
     private readonly TouchReceiverScreenOptions _screenOptions;
     private Task? _touchReceiverTask;
@@ -79,11 +82,12 @@ public partial class MainViewModel : ObservableRecipient
     public partial bool IsDataReceived { get; set; } = false;
     #endregion
 
-    public MainViewModel(ITouchReceiverSettingsService touchReceiverSettingsService, ITouchReceiverService touchReceiverService, ITouchReceiverCanvasService touchReceiverCanvasService)
+    public MainViewModel(ITouchReceiverSettingsService touchReceiverSettingsService, ITouchReceiverService touchReceiverService, ITouchReceiverCanvasService touchReceiverCanvasService, ILogger<MainViewModel> logger)
     {
         _touchReceiverSettingsService = touchReceiverSettingsService;
         _touchReceiverService = touchReceiverService;
         _touchReceiverCanvasService = touchReceiverCanvasService;
+        _logger = logger;
         SetInitialCanvas();
         _touchReceiverCanvasService.InitializeCanvas(_maxCanvasSize, TouchCircleSize, s_defaultCanvasSize);
         _touchReceiverCanvasService.SetUpdateHandler((service) =>
@@ -132,7 +136,7 @@ public partial class MainViewModel : ObservableRecipient
         }
         catch (OperationCanceledException)
         {
-            // ignore
+            _logger.LogInformation("TouchReceiverService is canceled");
         }
         catch (SocketException e)
         {

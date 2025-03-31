@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Input;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -10,6 +11,8 @@ using TouchSenderTablet.GUI.Contracts.Services;
 using TouchSenderTablet.GUI.Helpers;
 
 using Windows.ApplicationModel;
+using Windows.Storage;
+using Windows.Storage.Search;
 
 namespace TouchSenderTablet.GUI.ViewModels;
 
@@ -23,6 +26,12 @@ public partial class SettingsViewModel : ObservableRecipient
     [ObservableProperty]
     public partial string VersionDescription { get; set; }
 
+    [ObservableProperty]
+    public partial string Version { get; set; }
+
+    [ObservableProperty]
+    public partial string AppDisplayName { get; set; }
+
     public ICommand SwitchThemeCommand
     {
         get;
@@ -33,6 +42,8 @@ public partial class SettingsViewModel : ObservableRecipient
         _themeSelectorService = themeSelectorService;
         ElementTheme = _themeSelectorService.Theme;
         VersionDescription = GetVersionDescription();
+        Version = GetVersion();
+        AppDisplayName = "AppDisplayName".GetLocalized();
 
         SwitchThemeCommand = new RelayCommand<ElementTheme>(
             async (param) =>
@@ -43,6 +54,23 @@ public partial class SettingsViewModel : ObservableRecipient
                     await _themeSelectorService.SetThemeAsync(param);
                 }
             });
+    }
+
+    private static string GetVersion()
+    {
+        Version version;
+
+        if (RuntimeHelper.IsMSIX)
+        {
+            var packageVersion = Package.Current.Id.Version;
+
+            version = new(packageVersion.Major, packageVersion.Minor, packageVersion.Build, packageVersion.Revision);
+        }
+        else
+        {
+            version = Assembly.GetExecutingAssembly().GetName().Version!;
+        }
+        return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
     }
 
     private static string GetVersionDescription()
@@ -61,5 +89,25 @@ public partial class SettingsViewModel : ObservableRecipient
         }
 
         return $"{"AppDisplayName".GetLocalized()} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+    }
+
+    [RelayCommand]
+    private async Task ShowLogFile(CancellationToken token)
+    {
+        var queryOpitons = new QueryOptions(CommonFileQuery.OrderByName, [".log"]);
+        var result = ApplicationData.Current.LocalCacheFolder.CreateFileQueryWithOptions(queryOpitons);
+
+        var logFile = (await result.GetFilesAsync()).Where(f => f.Name.Equals("app.log")).FirstOrDefault();
+
+        if (logFile is null)
+        {
+            return;
+        }
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = "explorer",
+            Arguments = $"/select,\"{logFile.Path}\"",
+            UseShellExecute = true
+        });
     }
 }

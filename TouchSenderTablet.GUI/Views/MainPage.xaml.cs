@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml.Controls;
 
 using TouchSenderTablet.GUI.ViewModels;
 
@@ -15,6 +16,7 @@ public sealed partial class MainPage : Page
     {
         ViewModel = App.GetService<MainViewModel>();
         InitializeComponent();
+        App.GetService<ILogger<MainPage>>().LogInformation("Finished rendering");
     }
 
     private async void Page_Unloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

@@ -10,13 +10,20 @@
     xmlns:xaml="using:Microsoft.UI.Xaml"
     mc:Ignorable="d">
     <Page.Resources>
+        <x:Double x:Key="SectionSpacing">20</x:Double>
+        <x:Double x:Key="SectionItemSpacing">8</x:Double>
+        <Thickness x:Key="SectionTitleMargin">0,0,0,12</Thickness>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
         <converters:ElementThemeToStringConverter x:Key="ElementThemeToStringConverter" />
     </Page.Resources>
     <Grid>
-        <StackPanel x:Name="ContentArea">
-            <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+        <StackPanel x:Name="ContentArea" Spacing="{StaticResource SectionSpacing}">
+            <StackPanel>
+                <TextBlock
+                    x:Uid="Settings_Personalization"
+                    Margin="{StaticResource SectionTitleMargin}"
+                    Style="{ThemeResource SubtitleTextBlockStyle}" />
                 <toolkit:SettingsCard x:Uid="Settings_Theme" HeaderIcon="{ui:FontIcon Glyph=&#xE790;}">
                     <ComboBox
                         x:Name="ThemeMode"
@@ -28,19 +35,35 @@
                         <ComboBoxItem x:Uid="Settings_Theme_Default" Tag="Default" />
                     </ComboBox>
                 </toolkit:SettingsCard>
-
             </StackPanel>
 
-            <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
-
-            <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
-
+            <StackPanel>
                 <TextBlock
-                    x:Uid="Settings_AboutDescription"
-                    Margin="{StaticResource XSmallTopMargin}"
-                    Style="{ThemeResource BodyTextBlockStyle}" />
-                <HyperlinkButton x:Uid="SettingsPage_PrivacyTermsLink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
+                    x:Uid="Settings_About"
+                    Margin="{StaticResource SectionTitleMargin}"
+                    Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <StackPanel>
+                    <toolkit:SettingsCard Header="Log File" HeaderIcon="{ui:FontIcon Glyph=&#xE8E5;}">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <ProgressRing IsActive="True" Visibility="{x:Bind ViewModel.ShowLogFileCommand.IsRunning, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
+                            <Button Command="{x:Bind ViewModel.ShowLogFileCommand}" Style="{ThemeResource AccentButtonStyle}">
+                                <TextBlock Text="Open" />
+                            </Button>
+                        </StackPanel>
+                    </toolkit:SettingsCard>
+
+                    <toolkit:SettingsExpander Description="© 2025 Voltaney." Header="{x:Bind ViewModel.AppDisplayName}">
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind ViewModel.Version}" />
+                    </toolkit:SettingsExpander>
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
+
+                    <TextBlock x:Uid="Settings_AboutDescription" Style="{ThemeResource BodyTextBlockStyle}" />
+                    <HyperlinkButton x:Uid="SettingsPage_PrivacyTermsLink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
+                </StackPanel>
+
             </StackPanel>
         </StackPanel>
     </Grid>

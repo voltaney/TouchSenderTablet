@@ -1,4 +1,6 @@
-﻿using TouchSenderInterpreter.Models;
+﻿using Microsoft.Extensions.Logging;
+
+using TouchSenderInterpreter.Models;
 
 using TouchSenderReceiver.Reactors;
 using TouchSenderReceiver.Services;
@@ -10,7 +12,7 @@ using WindowsInput;
 
 namespace TouchSenderTablet.GUI.Services;
 
-public class TouchReceiverService : ITouchReceiverService
+public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouchReceiverService
 {
     private TouchReceiver? _receiver;
     public TouchSenderPayload? CurrentPayload { get; private set; }
@@ -56,6 +58,7 @@ public class TouchReceiverService : ITouchReceiverService
     {
         if (_receiver != null)
         {
+            logger.LogInformation("TouchReceiverService is starting");
             CurrentPayload = null;
             await _receiver.StartAsync(_portNumber, token);
         }

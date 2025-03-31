@@ -1,6 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppNotifications;
+using Microsoft.Windows.AppNotifications.Builder;
+
+using NLog.Extensions.Logging;
 
 using TouchSenderTablet.GUI.Activation;
 using TouchSenderTablet.GUI.Contracts.Services;
@@ -40,6 +45,9 @@ public partial class App : Application
     public static WindowEx MainWindow { get; } = new MainWindow();
 
     public static UIElement? AppTitlebar { get; set; }
+
+    // Appクラス内でのみ使用するロガー（UnhandledException関連）
+    private readonly ILogger _logger;
 
     public App()
     {
@@ -81,15 +89,79 @@ public partial class App : Application
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).
+        ConfigureLogging((context, builder) =>
+        {
+            builder.ClearProviders();
+            builder.SetMinimumLevel(LogLevel.Trace);
+            builder.AddNLog(context.Configuration);
+        }).
         Build();
 
+        // Unhandled exception用にロガーを取得
+        _logger = GetService<ILogger<App>>();
+
         UnhandledException += App_UnhandledException;
+        TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
     }
 
+    /// <summary>
+    /// アプリケーションで処理されていない例外が発生した場合に呼び出されます。
+    /// NOTE: こちらはUIスレッドの処理されていない例外なんかをキャッチできます。
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        // TODO: Log and handle exceptions as appropriate.
-        // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
+        // アプリのクラッシュを防ぐ
+        e.Handled = true;
+
+        _logger.LogError(e.Exception, "Unhandled exception occurred");
+
+        // トースト通知作成
+        var notification = new AppNotificationBuilder()
+            .AddText("An exception was thrown.")
+            .AddText($"Type: {e.Exception.GetType()}")
+            .AddText($"Message: {e.Message}\r\n")
+            .BuildNotification();
+
+        // トースト通知を表示
+        AppNotificationManager.Default.Show(notification);
+        // 1ミリ秒待機することで、アプリケーションが終了する前にトースト通知を表示
+        // https://github.com/microsoft/WindowsAppSDK/issues/3437
+        Thread.Sleep(1);
+        // アプリケーションを終了します
+        Environment.Exit(1);
+    }
+
+    /// <summary>
+    /// タスクスケジューラで処理されていない例外が発生した場合に呼び出されます。
+    /// NOTE: まだ一度もこちらのUnhandledExceptionイベントを確認できておらず...
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+    {
+        _logger.LogError(e.Exception, "Unobserved task exception occurred");
+
+        // アプリケーションを終了します
+        e.SetObserved();
+    }
+
+    /// <summary>
+    /// アプリケーションドメインで処理されない例外が発生した場合に呼び出されます。
+    /// NOTE: まだ一度もこちらのUnhandledExceptionイベントを確認できておらず...
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void CurrentDomain_UnhandledException(object sender, System.UnhandledExceptionEventArgs e)
+    {
+        var exception = e.ExceptionObject as Exception;
+
+        _logger.LogError(exception, "AppDomain.CurrentDomain unhandled exception occurred");
+
+        // アプリケーションを終了します
+        Environment.Exit(1);
     }
 
     protected override async void OnLaunched(LaunchActivatedEventArgs args)
