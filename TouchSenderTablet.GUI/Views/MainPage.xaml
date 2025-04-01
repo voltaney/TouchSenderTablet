@@ -189,7 +189,10 @@
                         <toolkit:SettingsCard Header="Left click while touching the device" HeaderIcon="{ui:FontIcon Glyph=&#xE7C9;}">
                             <ToggleSwitch IsEnabled="True" IsOn="{x:Bind ViewModel.LeftClickWhileTouched, Mode=TwoWay}" />
                         </toolkit:SettingsCard>
-                        <toolkit:SettingsCard Header="Horizontal mouse sensitivity" HeaderIcon="{ui:FontIcon Glyph=&#xE8AB;}">
+                        <toolkit:SettingsCard
+                            Description="Cursor movement (px) when touch moves approx. 1 cm"
+                            Header="Horizontal mouse sensitivity"
+                            HeaderIcon="{ui:FontIcon Glyph=&#xE8AB;}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition
@@ -213,7 +216,10 @@
                                     TextAlignment="Right" />
                             </Grid>
                         </toolkit:SettingsCard>
-                        <toolkit:SettingsCard Header="Vertical mouse sensitivity" HeaderIcon="{ui:FontIcon Glyph=&#xE8CB;}">
+                        <toolkit:SettingsCard
+                            Description="Cursor movement (px) when touch moves approx. 1 cm"
+                            Header="Vertical mouse sensitivity"
+                            HeaderIcon="{ui:FontIcon Glyph=&#xE8CB;}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition

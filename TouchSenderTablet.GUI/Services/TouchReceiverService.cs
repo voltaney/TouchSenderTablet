@@ -33,6 +33,9 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
                 {
                     inputSimulator.Mouse.LeftButtonDown();
                 }
+                // Flutterの論理ピクセルは38pxで約1cm
+                // 1cm動かしたら、Sensitivityの値分だけ動かす
+                // https://api.flutter.dev/flutter/dart-ui/FlutterView/devicePixelRatio.html
                 inputSimulator.Mouse.MoveMouseBy(
                     (int)Math.Round(e.Offset.X * (options.HorizontalSensitivity) / 38.0),
                     (int)Math.Round(e.Offset.Y * (options.VerticalSensitivity) / 38.0));
