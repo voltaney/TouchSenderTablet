@@ -65,6 +65,8 @@ class TouchReceiverCanvasService : ITouchReceiverCanvasService
     {
         if (_touchReceiverService.CurrentPayload?.SingleTouchRatio is null)
         {
+            // タッチ位置が存在しない場合は画面外に配置
+            TouchCirclePosition = new Point(-20, -20);
             return;
         }
         var ratio = _touchReceiverService.CurrentPayload.SingleTouchRatio;

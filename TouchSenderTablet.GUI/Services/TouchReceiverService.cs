@@ -18,24 +18,24 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
     public TouchSenderPayload? CurrentPayload { get; private set; }
     public bool IsDataReceived => CurrentPayload is not null;
     private int _portNumber;
+    static readonly InputSimulator inputSimulator = new InputSimulator();
 
     public void SetOptions(TouchReceiverServiceOptions options)
     {
         _portNumber = options.PortNumber;
-        var inputSimulator = new InputSimulator();
         _receiver = new TouchReceiver();
         _receiver.AddReactor<SingleTouchReactor>((r) =>
         {
             r.OnWhileTouched += (e) =>
             {
-                if (e.LongSideOffsetRatio is null) return;
+                if (e.Offset is null) return;
                 if (options.LeftClickWhileTouched)
                 {
                     inputSimulator.Mouse.LeftButtonDown();
                 }
                 inputSimulator.Mouse.MoveMouseBy(
-                    (int)(e.LongSideOffsetRatio.X * options.HorizontalSensitivity),
-                    (int)(e.LongSideOffsetRatio.Y * options.VerticalSensitivity));
+                    (int)Math.Round(e.Offset.X * (options.HorizontalSensitivity) / 38.0),
+                    (int)Math.Round(e.Offset.Y * (options.VerticalSensitivity) / 38.0));
             };
             r.OnReleased += (e) =>
             {
@@ -45,6 +45,8 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
                 }
             };
         });
+        // TODO: 1000hzくらいのときに外部からデータを取れない。
+        // スレッドセーフでないため。
         _receiver.AddReactor<RawPayloadReactor>((r) =>
         {
             r.OnReceive += (e) =>
