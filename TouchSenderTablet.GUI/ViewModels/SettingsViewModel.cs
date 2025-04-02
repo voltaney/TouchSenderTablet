@@ -13,8 +13,6 @@ using TouchSenderTablet.GUI.Helpers;
 using TouchSenderTablet.GUI.Models;
 
 using Windows.ApplicationModel;
-using Windows.Storage;
-using Windows.Storage.Search;
 
 namespace TouchSenderTablet.GUI.ViewModels;
 
@@ -96,10 +94,7 @@ public partial class SettingsViewModel : ObservableRecipient
     [RelayCommand]
     private async Task ShowLogFile(CancellationToken token)
     {
-        var queryOpitons = new QueryOptions(CommonFileQuery.OrderByName, [".log"]);
-        var result = ApplicationData.Current.LocalCacheFolder.CreateFileQueryWithOptions(queryOpitons);
-
-        var logFile = (await result.GetFilesAsync()).Where(f => f.Name.Equals("app.log")).FirstOrDefault();
+        var logFile = await LogFileHelper.FindLogFile();
 
         if (logFile is null)
         {
@@ -114,7 +109,7 @@ public partial class SettingsViewModel : ObservableRecipient
             Process.Start(new ProcessStartInfo
             {
                 FileName = "explorer",
-                Arguments = $"/select,\"{logFile.Path}\"",
+                Arguments = $"/select,\"{logFile}\"",
                 UseShellExecute = true
             });
         }

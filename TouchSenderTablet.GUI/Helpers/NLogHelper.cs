@@ -18,8 +18,7 @@ public static class NLogHelper
         {
             return null;
         }
-
-        var logEventInfo = new LogEventInfo { TimeStamp = DateTime.Now };
-        return target.FileName.Render(logEventInfo);
+        // https://stackoverflow.com/questions/11452645/how-to-get-path-of-current-target-file-using-nlog-in-runtime
+        return target.FileName.Render(LogEventInfo.CreateNullEvent());
     }
 }
