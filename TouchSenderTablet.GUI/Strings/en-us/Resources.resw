@@ -124,7 +124,7 @@
     <value>TouchSender Tablet</value>
   </data>
   <data name="Shell_Main.Content" xml:space="preserve">
-    <value>Touch Receiver</value>
+    <value>TouchSender Tablet</value>
   </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
     <value>Personalization</value>
@@ -139,7 +139,7 @@
     <value>Default</value>
   </data>
   <data name="Settings_About.Text" xml:space="preserve">
-    <value>About this application</value>
+    <value>About</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
     <value>TODO: Replace with your app description.</value>
