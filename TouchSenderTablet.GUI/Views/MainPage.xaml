@@ -99,6 +99,8 @@
                     Spacing="8"
                     Style="{StaticResource Card}">
                     <CheckBox
+                        Padding="8"
+                        VerticalAlignment="Center"
                         VerticalContentAlignment="Center"
                         Content="Enable realtime TouchSender monitor"
                         IsChecked="{x:Bind ViewModel.IsTouchReceiverCanvasEnabled, Mode=TwoWay}"
