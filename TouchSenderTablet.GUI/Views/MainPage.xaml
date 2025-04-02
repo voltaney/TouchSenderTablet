@@ -53,13 +53,18 @@
     </Page.Resources>
 
     <StackPanel HorizontalAlignment="Stretch" Spacing="0">
+        <TextBlock
+            Margin="0,0,0,16"
+            Text="The cursor moves based on data received from the Touch Sender app.&#x0a;Note that if this window is in focus while a touch operation is performed, the cursor may not move smoothly."
+            TextWrapping="WrapWholeWords" />
+        <TextBlock Style="{StaticResource MainHeaderTextBlockStyle}" Text="Control Panel" />
+
         <Grid Name="MainContainer">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel VerticalAlignment="Top">
-                <TextBlock Style="{StaticResource MainHeaderTextBlockStyle}" Text="Operations" />
                 <StackPanel
                     Orientation="Horizontal"
                     Spacing="10"
@@ -92,7 +97,6 @@
                 Grid.Column="1"
                 Margin="20,0,0,0"
                 HorizontalAlignment="Left">
-                <TextBlock Style="{StaticResource MainHeaderTextBlockStyle}" Text="TouchSender State" />
 
                 <StackPanel
                     Orientation="Vertical"
