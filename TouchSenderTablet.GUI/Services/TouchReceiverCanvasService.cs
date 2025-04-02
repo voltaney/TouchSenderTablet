@@ -1,5 +1,6 @@
-﻿
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
+
+using TouchSenderInterpreter.Models;
 
 using TouchSenderTablet.GUI.Contracts.Services;
 
@@ -20,7 +21,8 @@ class TouchReceiverCanvasService : ITouchReceiverCanvasService
     private bool _isInitialized = false;
     public Size CanvasSize { get; private set; }
     public Point TouchCirclePosition { get; private set; }
-    private Action<ITouchReceiverCanvasService>? _updateHandler;
+    private Action<Size, Point, int>? _updateHandler;
+    private TouchSenderPayload? _currentPayload;
 
     public TouchReceiverCanvasService(ITouchReceiverService touchReceiverService)
     {
@@ -39,18 +41,17 @@ class TouchReceiverCanvasService : ITouchReceiverCanvasService
 
     private void TimerTick(object? sender, object e)
     {
-        CalculateCanvas();
-        CalculateTouchCircle();
-        _updateHandler?.Invoke(this);
+        if (_touchReceiverService.TryGetLatestPayload(out _currentPayload))
+        {
+            CalculateCanvas();
+            CalculateTouchCircle();
+            _updateHandler?.Invoke(CanvasSize, TouchCirclePosition, _touchReceiverService.DroppedPayloadCount);
+        }
     }
 
     private void CalculateCanvas()
     {
-        if (_touchReceiverService.CurrentPayload is null)
-        {
-            return;
-        }
-        var device = _touchReceiverService.CurrentPayload.DeviceInfo;
+        var device = _currentPayload!.DeviceInfo;
         if (device.Height > device.Width)
         {
             CanvasSize = new Size((double)device.Width / device.Height * _maxCanvasSize, _maxCanvasSize);
@@ -63,17 +64,17 @@ class TouchReceiverCanvasService : ITouchReceiverCanvasService
 
     private void CalculateTouchCircle()
     {
-        if (_touchReceiverService.CurrentPayload?.SingleTouchRatio is null)
+        if (_currentPayload!.SingleTouchRatio is null)
         {
             // タッチ位置が存在しない場合は画面外に配置
             TouchCirclePosition = new Point(-20, -20);
             return;
         }
-        var ratio = _touchReceiverService.CurrentPayload.SingleTouchRatio;
+        var ratio = _currentPayload.SingleTouchRatio;
         TouchCirclePosition = new Point(ratio.X * CanvasSize.Width - _touchCircleSize / 2.0, ratio.Y * CanvasSize.Height - _touchCircleSize / 2.0);
     }
 
-    public void SetUpdateHandler(Action<ITouchReceiverCanvasService> updateHandler)
+    public void SetUpdateHandler(Action<Size, Point, int> updateHandler)
     {
         _updateHandler = updateHandler;
     }
@@ -95,15 +96,5 @@ class TouchReceiverCanvasService : ITouchReceiverCanvasService
     public void Stop()
     {
         _timer.Stop();
-    }
-
-    public void SetUpdateHandler(Action updateHandler)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void InitializeCanvas(int maxCanvasSize, int touchCircleSize)
-    {
-        throw new NotImplementedException();
     }
 }

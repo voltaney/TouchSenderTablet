@@ -6,8 +6,8 @@ namespace TouchSenderTablet.GUI.Contracts.Services;
 
 public interface ITouchReceiverService
 {
-    TouchSenderPayload? CurrentPayload { get; }
-    bool IsDataReceived { get; }
+    int DroppedPayloadCount { get; }
     void SetOptions(TouchReceiverServiceOptions options);
     Task StartAsync(CancellationToken token);
+    bool TryGetLatestPayload(out TouchSenderPayload? payload);
 }

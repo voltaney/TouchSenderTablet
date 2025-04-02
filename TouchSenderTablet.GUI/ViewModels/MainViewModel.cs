@@ -65,11 +65,11 @@ public partial class MainViewModel : ObservableRecipient
     #region Monitor Settings
     public int TouchCircleSize { get; } = 16;
     private readonly int _maxCanvasSize = 400;
+    private static readonly int s_defaultCanvasSize = 220;
+    private static readonly int s_canvasFps = 100;
     #endregion
 
     #region Monitor Properties
-    private static readonly int s_defaultCanvasSize = 220;
-    private static readonly int s_canvasFps = 100;
     [ObservableProperty]
     public partial int CanvasWidth { get; set; } = s_defaultCanvasSize;
     [ObservableProperty]
@@ -80,23 +80,32 @@ public partial class MainViewModel : ObservableRecipient
     public partial int TouchCircleY { get; set; }
     [ObservableProperty]
     public partial bool IsDataReceived { get; set; } = false;
+    [ObservableProperty]
+    public partial int DroppedPayloadCount { get; set; }
+    [ObservableProperty]
+    public partial bool IsPayloadDropped { get; set; } = false;
     #endregion
 
     public MainViewModel(ITouchReceiverSettingsService touchReceiverSettingsService, ITouchReceiverService touchReceiverService, ITouchReceiverCanvasService touchReceiverCanvasService, ILogger<MainViewModel> logger)
     {
+        // DI
         _touchReceiverSettingsService = touchReceiverSettingsService;
         _touchReceiverService = touchReceiverService;
         _touchReceiverCanvasService = touchReceiverCanvasService;
         _logger = logger;
+
+        // Initialize
         SetInitialCanvas();
         _touchReceiverCanvasService.InitializeCanvas(_maxCanvasSize, TouchCircleSize, s_defaultCanvasSize);
-        _touchReceiverCanvasService.SetUpdateHandler((service) =>
+        _touchReceiverCanvasService.SetUpdateHandler((canvasSize, touchCirclePosition, droppedPayloadCount) =>
         {
-            IsDataReceived = _touchReceiverService.IsDataReceived;
-            CanvasWidth = (int)service.CanvasSize.Width;
-            CanvasHeight = (int)service.CanvasSize.Height;
-            TouchCircleX = (int)service.TouchCirclePosition.X;
-            TouchCircleY = (int)service.TouchCirclePosition.Y;
+            IsDataReceived = true;
+            CanvasWidth = (int)canvasSize.Width;
+            CanvasHeight = (int)canvasSize.Height;
+            TouchCircleX = (int)touchCirclePosition.X;
+            TouchCircleY = (int)touchCirclePosition.Y;
+            DroppedPayloadCount = droppedPayloadCount;
+            IsPayloadDropped = droppedPayloadCount > 0;
         });
 
         _serviceOptions = _touchReceiverSettingsService.ServiceOptions;
@@ -161,6 +170,7 @@ public partial class MainViewModel : ObservableRecipient
         StartTouchReceiverServiceCommand.Cancel();
         _touchReceiverCanvasService.Stop();
         IsDataReceived = false;
+        IsPayloadDropped = false;
     }
     private bool CanStartTouchReceiverService() => !IsTouchReceiverServiceRunning();
     private bool CanStopTouchReceiverService() => IsTouchReceiverServiceRunning();

@@ -8,7 +8,7 @@ public interface ITouchReceiverCanvasService
     Point TouchCirclePosition { get; }
 
     void InitializeCanvas(int maxCanvasSize, int touchCircleSize, int defaultCanvasSize);
-    void SetUpdateHandler(Action<ITouchReceiverCanvasService> updateHandler);
+    void SetUpdateHandler(Action<Size, Point, int> updateHandler);
     void Start(TimeSpan timeSpan);
     void Stop();
 }

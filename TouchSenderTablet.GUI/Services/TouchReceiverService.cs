@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Collections.Concurrent;
+
+using Microsoft.Extensions.Logging;
 
 using TouchSenderInterpreter.Models;
 
@@ -15,10 +17,12 @@ namespace TouchSenderTablet.GUI.Services;
 public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouchReceiverService
 {
     private TouchReceiver? _receiver;
-    public TouchSenderPayload? CurrentPayload { get; private set; }
-    public bool IsDataReceived => CurrentPayload is not null;
     private int _portNumber;
-    static readonly InputSimulator inputSimulator = new InputSimulator();
+    static readonly InputSimulator s_inputSimulator = new InputSimulator();
+    private readonly ConcurrentDictionary<string, TouchSenderPayload> _payloads = new();
+    private const string LatestPayloadKey = "latest";
+    private int _currentPayloadId;
+    public int DroppedPayloadCount { get; private set; }
 
     public void SetOptions(TouchReceiverServiceOptions options)
     {
@@ -31,12 +35,12 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
                 if (e.Offset is null) return;
                 if (options.LeftClickWhileTouched)
                 {
-                    inputSimulator.Mouse.LeftButtonDown();
+                    s_inputSimulator.Mouse.LeftButtonDown();
                 }
                 // Flutterの論理ピクセルは38pxで約1cm
                 // 1cm動かしたら、Sensitivityの値分だけ動かす
                 // https://api.flutter.dev/flutter/dart-ui/FlutterView/devicePixelRatio.html
-                inputSimulator.Mouse.MoveMouseBy(
+                s_inputSimulator.Mouse.MoveMouseBy(
                     (int)Math.Round(e.Offset.X * (options.HorizontalSensitivity) / 38.0),
                     (int)Math.Round(e.Offset.Y * (options.VerticalSensitivity) / 38.0));
             };
@@ -44,7 +48,7 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
             {
                 if (options.LeftClickWhileTouched)
                 {
-                    inputSimulator.Mouse.LeftButtonUp();
+                    s_inputSimulator.Mouse.LeftButtonUp();
                 }
             };
         });
@@ -54,7 +58,14 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
         {
             r.OnReceive += (e) =>
             {
-                CurrentPayload = e.Payload;
+                // データを複製して保存
+                _payloads[LatestPayloadKey] = e.Payload with { };
+                // ペイロードIDが連続していない場合はドロップとしてカウント
+                if (e.Payload.Id != 0 && _currentPayloadId != 0 && e.Payload.Id != _currentPayloadId + 1)
+                {
+                    DroppedPayloadCount++;
+                }
+                _currentPayloadId = e.Payload.Id;
             };
         });
     }
@@ -63,9 +74,14 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
     {
         if (_receiver != null)
         {
+            _currentPayloadId = DroppedPayloadCount = 0;
             logger.LogInformation("TouchReceiverService is starting");
-            CurrentPayload = null;
             await _receiver.StartAsync(_portNumber, token);
         }
+    }
+
+    public bool TryGetLatestPayload(out TouchSenderPayload? payload)
+    {
+        return _payloads.TryGetValue(LatestPayloadKey, out payload);
     }
 }
