@@ -83,4 +83,10 @@ public sealed partial class ShellPage : Page
 
         args.Handled = result;
     }
+
+    private void NavigationViewControl_Loaded(object sender, RoutedEventArgs e)
+    {
+        // 起動時にドロワーメニューにフォーカスしてしまうのを防ぐ
+        NavigationViewControl.Focus(FocusState.Programmatic);
+    }
 }
