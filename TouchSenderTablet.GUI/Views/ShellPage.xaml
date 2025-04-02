@@ -82,7 +82,10 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" MaxWidth="1000" />
                         </Grid.ColumnDefinitions>
-                        <Frame x:Name="NavigationFrame" HorizontalAlignment="Stretch" />
+                        <Frame
+                            x:Name="NavigationFrame"
+                            HorizontalAlignment="Stretch"
+                            IsTabStop="True" />
                     </Grid>
                 </Grid>
             </ScrollViewer>

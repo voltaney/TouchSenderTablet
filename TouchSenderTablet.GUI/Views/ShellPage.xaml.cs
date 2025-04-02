@@ -87,6 +87,7 @@ public sealed partial class ShellPage : Page
     private void NavigationViewControl_Loaded(object sender, RoutedEventArgs e)
     {
         // 起動時にドロワーメニューにフォーカスしてしまうのを防ぐ
-        NavigationViewControl.Focus(FocusState.Programmatic);
+        // NavigationFrameのIsTabStopをtrueにすることでフォーカスを移動可能にする
+        NavigationFrame.Focus(FocusState.Programmatic);
     }
 }
