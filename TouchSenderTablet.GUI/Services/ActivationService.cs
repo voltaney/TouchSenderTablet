@@ -38,11 +38,11 @@ public class ActivationService(
         // Handle activation via ActivationHandlers.
         await HandleActivationAsync(activationArgs);
 
-        // Activate the MainWindow.
-        App.MainWindow.Activate();
-
         // Execute tasks after activation.
         await StartupAsync();
+
+        // Activate the MainWindow.
+        App.MainWindow.Activate();
     }
 
     private async Task HandleActivationAsync(object activationArgs)
