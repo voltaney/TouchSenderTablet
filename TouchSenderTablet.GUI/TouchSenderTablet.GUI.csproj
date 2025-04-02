@@ -56,6 +56,9 @@
     <Page Update="Styles\CanvasColor.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <None Update="Assets/*">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
