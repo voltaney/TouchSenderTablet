@@ -206,7 +206,10 @@
                             CornerRadius="{ThemeResource ControlCornerRadius}"
                             Visibility="{x:Bind ViewModel.IsPayloadDropped, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal" Spacing="4">
-                                <TextBlock x:Uid="DataDropped" Foreground="{ThemeResource TextOnAccentAAFillColorPrimary}" />
+                                <TextBlock
+                                    x:Uid="DataDropped"
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextOnAccentAAFillColorPrimary}" />
                                 <TextBlock
                                     HorizontalAlignment="Left"
                                     FontSize="12"
