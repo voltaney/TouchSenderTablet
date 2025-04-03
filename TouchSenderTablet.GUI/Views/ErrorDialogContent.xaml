@@ -19,7 +19,7 @@
         <TextBlock Text="{x:Bind ErrorMessage}" TextWrapping="Wrap" />
 
         <StackPanel Spacing="4" Visibility="{x:Bind ErrorDetail, Converter={StaticResource StringToVisibilityConverter}}">
-            <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="Detail" />
+            <TextBlock x:Uid="Detail" Style="{ThemeResource BodyStrongTextBlockStyle}" />
             <TextBlock Text="{x:Bind ErrorDetail}" TextWrapping="Wrap" />
         </StackPanel>
     </StackPanel>

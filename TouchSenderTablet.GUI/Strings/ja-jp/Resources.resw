@@ -118,25 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppDisplayName" xml:space="preserve">
-    <value>TouchSender Tablet</value>
+    <value>TouchSender タブレット</value>
   </data>
   <data name="AppDescription" xml:space="preserve">
     <value>TouchSender Tablet</value>
   </data>
   <data name="Shell_Main.Content" xml:space="preserve">
-    <value>TouchSender Tablet</value>
+    <value>TouchSender タブレット</value>
   </data>
   <data name="Settings_Appearance.Text" xml:space="preserve">
-    <value>Appearance</value>
+    <value>外観</value>
   </data>
   <data name="Settings_Theme_Light.Content" xml:space="preserve">
-    <value>Light</value>
+    <value>ライト</value>
   </data>
   <data name="Settings_Theme_Dark.Content" xml:space="preserve">
-    <value>Dark</value>
+    <value>ダーク</value>
   </data>
   <data name="Settings_Theme_Default.Content" xml:space="preserve">
-    <value>Default</value>
+    <value>システム</value>
   </data>
   <data name="Settings_About.Text" xml:space="preserve">
     <value>About</value>
@@ -151,21 +151,21 @@
     <value>https://YourPrivacyUrlGoesHere/</value>
   </data>
   <data name="Settings_Theme.Header" xml:space="preserve">
-    <value>Theme</value>
+    <value>テーマ</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Close</value>
+    <value>閉じる</value>
   </data>
   <data name="NetworkError" xml:space="preserve">
-    <value>NetworkError</value>
+    <value>ネットワークエラー</value>
   </data>
   <data name="NetworkErrorMessage" xml:space="preserve">
-    <value>Please check the network settings and try again.</value>
+    <value>ネットワーク設定を見直して、再試行してください。</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>不明</value>
   </data>
   <data name="Detail.Text" xml:space="preserve">
-    <value>Detail</value>
+    <value>詳細</value>
   </data>
 </root>

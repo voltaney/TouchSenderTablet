@@ -50,7 +50,7 @@ public sealed partial class MainWindow : WindowEx
         {
             XamlRoot = Content.XamlRoot,
             Title = message.Title,
-            CloseButtonText = "Close",
+            CloseButtonText = "Close".GetLocalized(),
             RequestedTheme = ((FrameworkElement)Content).ActualTheme,
             Content = new ErrorDialogContent { ErrorMessage = message.Message ?? "", ErrorDetail = message.Error?.Message ?? "" }
         };

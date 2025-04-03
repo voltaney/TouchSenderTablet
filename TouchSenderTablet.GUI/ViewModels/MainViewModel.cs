@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using TouchSenderReceiver.Helpers;
 
 using TouchSenderTablet.GUI.Contracts.Services;
+using TouchSenderTablet.GUI.Helpers;
 using TouchSenderTablet.GUI.Models;
 
 namespace TouchSenderTablet.GUI.ViewModels;
@@ -112,7 +113,7 @@ public partial class MainViewModel : ObservableRecipient
         _screenOptions = _touchReceiverSettingsService.ScreenOptions;
 
         var candidateIpAddresses = NetworkHelper.GetAllLocalIPv4();
-        IpAddresses = candidateIpAddresses.Count > 0 ? string.Join(" / ", NetworkHelper.GetAllLocalIPv4()) : "Unknown";
+        IpAddresses = candidateIpAddresses.Count > 0 ? string.Join(" / ", NetworkHelper.GetAllLocalIPv4()) : "Unknown".GetLocalized();
     }
 
     private void SetInitialCanvas()
@@ -151,9 +152,9 @@ public partial class MainViewModel : ObservableRecipient
         {
             WeakReferenceMessenger.Default.Send(new ShowErrorDialogMessage()
             {
-                Title = "Network Error",
+                Title = "NetworkError".GetLocalized(),
                 Error = e,
-                Message = "Please check the network settings and try again.",
+                Message = "NetworkErrorMessage".GetLocalized(),
             });
         }
         finally

@@ -16,11 +16,11 @@
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <LangVersion>preview</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyName>TouchSender Tablet</AssemblyName>
+    <Authors>Voltaney</Authors>
+    <Copyright>© Voltaney 2025</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Styles\CanvasColor.xaml" />
-    <None Remove="Views\ErrorDialogContent.xaml" />
-  </ItemGroup>
 
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
@@ -49,12 +49,7 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Page Update="Views\ErrorDialogContent.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Styles\CanvasColor.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+
     <None Update="Assets/*">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
