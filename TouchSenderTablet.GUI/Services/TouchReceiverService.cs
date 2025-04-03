@@ -19,9 +19,22 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
     private int _portNumber;
     private readonly ConcurrentDictionary<string, TouchSenderPayload> _payloads = new();
     private const string LatestPayloadKey = "latest";
+
+    // Flutterの論理ピクセルは38pxで約1cm
+    // https://api.flutter.dev/flutter/dart-ui/FlutterView/devicePixelRatio.html
+    private const double FlutterPixelPerCm = 38.0;
+
     private int _currentPayloadId;
+
+    /// <summary>
+    /// ドロップした（処理できなかった）ペイロードの数。スレッドセーフ。
+    /// </summary>
     public int DroppedPayloadCount { get; private set; }
 
+    /// <summary>
+    /// TouchReceiverServiceのオプションを設定します。
+    /// </summary>
+    /// <param name="options"></param>
     public void SetOptions(TouchReceiverServiceOptions options)
     {
         _portNumber = options.PortNumber;
@@ -31,18 +44,15 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
             r.OnWhileTouched += (e) =>
             {
                 if (e.Offset is null) return;
-                // Flutterの論理ピクセルは38pxで約1cm
                 // 1cm動かしたら、Sensitivityの値分だけ動かす
-                // https://api.flutter.dev/flutter/dart-ui/FlutterView/devicePixelRatio.html
                 MouseHelper.MoveCursor(
-                    (int)Math.Round(e.Offset.X * (options.HorizontalSensitivity) / 38.0),
-                    (int)Math.Round(e.Offset.Y * (options.VerticalSensitivity) / 38.0));
+                    (int)Math.Round(e.Offset.X * (options.HorizontalSensitivity) / FlutterPixelPerCm),
+                    (int)Math.Round(e.Offset.Y * (options.VerticalSensitivity) / FlutterPixelPerCm));
             };
             r.OnTouched += (e) =>
             {
                 if (options.LeftClickWhileTouched)
                 {
-                    //s_inputSimulator.Mouse.LeftButtonDown();
                     MouseHelper.LeftClickDown();
                 }
             };
@@ -50,13 +60,12 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
             {
                 if (options.LeftClickWhileTouched)
                 {
-                    //s_inputSimulator.Mouse.LeftButtonUp();
                     MouseHelper.LeftClickUp();
                 }
             };
         });
-        // TODO: 1000hzくらいのときに外部からデータを取れない。
-        // スレッドセーフでないため。
+
+        // ConcurrentDictionaryを使用したスレッドセーフなPayload受け渡し
         _receiver.AddReactor<RawPayloadReactor>((r) =>
         {
             r.OnReceive += (e) =>
@@ -73,6 +82,11 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
         });
     }
 
+    /// <summary>
+    /// TouchReceiverServiceを開始します。
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns></returns>
     public async Task StartAsync(CancellationToken token)
     {
         if (_receiver != null)
@@ -83,6 +97,11 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
         }
     }
 
+    /// <summary>
+    /// 最新のペイロードを取得します。スレッドセーフ。
+    /// </summary>
+    /// <param name="payload">最新のTouchSenderPayload</param>
+    /// <returns>ConcurrentDictionaryから値を取得できたかどうか</returns>
     public bool TryGetLatestPayload(out TouchSenderPayload? payload)
     {
         return _payloads.TryGetValue(LatestPayloadKey, out payload);
