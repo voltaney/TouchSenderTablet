@@ -2,11 +2,13 @@
     x:Class="TouchSenderTablet.GUI.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="using:TouchSenderTablet.GUI.Behaviors"
     xmlns:converters="using:TouchSenderTablet.GUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     xmlns:ui="using:CommunityToolkit.WinUI"
+    behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     NavigationCacheMode="Enabled"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
@@ -53,13 +55,52 @@
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Page.Resources>
 
-    <StackPanel HorizontalAlignment="Stretch" Spacing="0">
-        <TextBlock
-            x:Uid="MainExplanation"
-            Margin="0,0,0,16"
-            FontSize="14"
-            TextWrapping="WrapWholeWords" />
-        <TextBlock x:Uid="ControlPanelHeader" Style="{StaticResource MainHeaderTextBlockStyle}" />
+
+    <!--  タイトル無しのため、TopMarginを付与  -->
+    <StackPanel
+        Margin="0,20,0,0"
+        HorizontalAlignment="Stretch"
+        Spacing="0">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <TextBlock
+                x:Uid="ControlPanelHeader"
+                VerticalAlignment="Center"
+                Style="{StaticResource MainHeaderTextBlockStyle}" />
+            <Button
+                Margin="0,0,0,10"
+                Padding="4"
+                VerticalAlignment="Bottom"
+                BorderThickness="0"
+                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                <Button.Content>
+                    <FontIcon
+                        FontSize="14"
+                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                        Glyph="&#xE946;" />
+                </Button.Content>
+                <Button.Flyout>
+                    <Flyout Placement="BottomEdgeAlignedLeft">
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style TargetType="FlyoutPresenter">
+                                <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+                                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+                                <Setter Property="MaxWidth" Value="800" />
+                                <Setter Property="Padding" Value="16" />
+                                <Setter Property="CornerRadius" Value="12" />
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                        <Flyout.SystemBackdrop>
+                            <MicaBackdrop />
+                        </Flyout.SystemBackdrop>
+                        <TextBlock
+                            x:Uid="MainExplanation"
+                            FontSize="14"
+                            LineHeight="20"
+                            TextWrapping="WrapWholeWords" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
 
         <Grid Name="MainContainer">
             <Grid.ColumnDefinitions>
