@@ -43,7 +43,16 @@
                     Margin="{StaticResource SectionTitleMargin}"
                     Style="{ThemeResource SubtitleTextBlockStyle}" />
                 <StackPanel Spacing="{StaticResource SectionItemSpacing}">
-                    <toolkit:SettingsCard Header="Log File" HeaderIcon="{ui:FontIcon Glyph=&#xE8E5;}">
+                    <toolkit:SettingsExpander Description="© 2025 Voltaney." Header="{x:Bind ViewModel.AppDisplayName}">
+                        <toolkit:SettingsExpander.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/StoreLogo.png" />
+                        </toolkit:SettingsExpander.HeaderIcon>
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            IsTextSelectionEnabled="True"
+                            Text="{x:Bind ViewModel.Version}" />
+                    </toolkit:SettingsExpander>
+                    <toolkit:SettingsCard x:Uid="LogFile" HeaderIcon="{ui:FontIcon Glyph=&#xE8E5;}">
                         <StackPanel Orientation="Horizontal" Spacing="12">
                             <ProgressRing IsActive="True" Visibility="{x:Bind ViewModel.ShowLogFileCommand.IsRunning, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
                             <Button Command="{x:Bind ViewModel.ShowLogFileCommand}" Style="{ThemeResource AccentButtonStyle}">
@@ -51,19 +60,7 @@
                             </Button>
                         </StackPanel>
                     </toolkit:SettingsCard>
-
-                    <toolkit:SettingsExpander Description="© 2025 Voltaney." Header="{x:Bind ViewModel.AppDisplayName}">
-                        <TextBlock
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            IsTextSelectionEnabled="True"
-                            Text="{x:Bind ViewModel.Version}" />
-                    </toolkit:SettingsExpander>
-                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
-
-                    <TextBlock x:Uid="Settings_AboutDescription" Style="{ThemeResource BodyTextBlockStyle}" />
-                    <HyperlinkButton x:Uid="SettingsPage_PrivacyTermsLink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
                 </StackPanel>
-
             </StackPanel>
         </StackPanel>
     </Grid>

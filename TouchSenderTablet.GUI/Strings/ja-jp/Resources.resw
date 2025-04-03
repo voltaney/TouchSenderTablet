@@ -226,4 +226,7 @@
   <data name="Open.Text" xml:space="preserve">
     <value>開く</value>
   </data>
+  <data name="LogFile.Header" xml:space="preserve">
+    <value>ログファイル</value>
+  </data>
 </root>

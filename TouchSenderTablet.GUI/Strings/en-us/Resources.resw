@@ -226,4 +226,7 @@ Note that if this window is in focus while a touch operation is performed, the c
   <data name="Open.Text" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="LogFile.Header" xml:space="preserve">
+    <value>Log file</value>
+  </data>
 </root>
