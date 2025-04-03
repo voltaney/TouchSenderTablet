@@ -63,7 +63,7 @@ public partial class MainViewModel : ObservableRecipient
     }
 
     #region Monitor Settings
-    public int TouchCircleSize { get; } = 16;
+    public int TouchCircleSize { get; } = 20;
     private readonly int _maxCanvasSize = 400;
     private static readonly int s_defaultCanvasSize = 220;
     private static readonly int s_canvasFps = 100;
