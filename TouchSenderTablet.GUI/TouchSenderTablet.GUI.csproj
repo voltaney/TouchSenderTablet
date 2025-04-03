@@ -14,9 +14,10 @@
 	<UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <WindowsPackageType>None</WindowsPackageType>
     <LangVersion>preview</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <AssemblyName>TouchSender Tablet</AssemblyName>
+    <AssemblyName>TouchSenderTablet</AssemblyName>
     <Authors>Voltaney</Authors>
     <Copyright>© Voltaney 2025</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
