@@ -10,4 +10,8 @@
     <PackageReference Include="Voltaney.TouchSenderInterpreter" Version="1.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>

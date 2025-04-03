@@ -3,54 +3,55 @@
 using TouchSenderReceiver.Events;
 using TouchSenderReceiver.Interfaces;
 
-namespace TouchSenderReceiver.Reactors
+namespace TouchSenderReceiver.Reactors;
+
+public class SingleTouchReactor : ITouchReceiverReactor
 {
-    public class SingleTouchReactor : ITouchSenderReactor
+    private SingleTouch? _previous;
+    private SingleTouch? _previousRatio;
+    public event Action<SingleTouchEventArgs>? OnWhileTouched;
+    public event Action<SingleTouchEventArgs>? OnWhileReleased;
+    public event Action<SingleTouchEventArgs>? OnTouched;
+    public event Action<SingleTouchEventArgs>? OnReleased;
+
+    public void Receive(TouchSenderPayload payload)
     {
-        private SingleTouch? _previous;
-        private SingleTouch? _previousRatio;
-        public event Action<SingleTouchEventArgs>? OnWhileTouched;
-        public event Action<SingleTouchEventArgs>? OnWhileReleased;
-        public event Action<SingleTouchEventArgs>? OnTouched;
-        public event Action<SingleTouchEventArgs>? OnReleased;
+        InvokeActions(payload);
+        SavePreviousPayload(payload);
+    }
 
-        public void Receive(TouchSenderPayload payload)
+    private void InvokeActions(TouchSenderPayload payload)
+    {
+        var args = new SingleTouchEventArgs
         {
-            InvokeActions(payload);
-            SavePreviousPayload(payload);
-        }
-
-        private void InvokeActions(TouchSenderPayload payload)
+            DeviceWidth = payload.DeviceInfo.Width,
+            DeviceHeight = payload.DeviceInfo.Height,
+            Current = payload.SingleTouch,
+            CurrentRatio = payload.SingleTouchRatio,
+            Previous = _previous,
+            PreviousRatio = _previousRatio
+        };
+        if (payload.SingleTouch is not null)
         {
-            var args = new SingleTouchEventArgs
+            OnWhileTouched?.Invoke(args);
+            if (_previous is null)
             {
-                Current = payload.SingleTouch,
-                CurrentRatio = payload.SingleTouchRatio,
-                Previous = _previous,
-                PreviousRatio = _previousRatio
-            };
-            if (payload.SingleTouch is not null)
-            {
-                OnWhileTouched?.Invoke(args);
-                if (_previous is null)
-                {
-                    OnTouched?.Invoke(args);
-                }
-            }
-            else
-            {
-                OnWhileReleased?.Invoke(args);
-                if (_previous is not null)
-                {
-                    OnReleased?.Invoke(args);
-                }
+                OnTouched?.Invoke(args);
             }
         }
-
-        private void SavePreviousPayload(TouchSenderPayload payload)
+        else
         {
-            _previous = payload.SingleTouch;
-            _previousRatio = payload.SingleTouchRatio;
+            OnWhileReleased?.Invoke(args);
+            if (_previous is not null)
+            {
+                OnReleased?.Invoke(args);
+            }
         }
+    }
+
+    private void SavePreviousPayload(TouchSenderPayload payload)
+    {
+        _previous = payload.SingleTouch;
+        _previousRatio = payload.SingleTouchRatio;
     }
 }

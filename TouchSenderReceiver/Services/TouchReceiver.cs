@@ -4,34 +4,40 @@ using TouchSenderInterpreter;
 
 using TouchSenderReceiver.Interfaces;
 
-namespace TouchSenderReceiver.Services
+namespace TouchSenderReceiver.Services;
+
+public class TouchReceiver
 {
-    public class TouchReceiver
+    protected List<ITouchReceiverReactor> _reactors = [];
+    public async Task StartAsync(int portNumber, CancellationToken cancellationToken)
     {
-        protected List<ITouchSenderReactor> _reactors = [];
-        public async Task StartAsync(int portNumber, CancellationToken cancellationToken)
+        // UDPでデータを受信
+        using (var udp = new UdpClient(portNumber))
         {
-            // UDPでデータを受信
-            using (var udp = new UdpClient(portNumber))
+            while (true)
             {
-                while (true)
+                var recvBuffer = await udp.ReceiveAsync(cancellationToken);
+                var result = Interpreter.Read(recvBuffer.Buffer);
+                if (result.IsSuccess)
                 {
-                    var recvBuffer = await udp.ReceiveAsync(cancellationToken);
-                    var result = Interpreter.Read(recvBuffer.Buffer);
-                    if (result.IsSuccess)
+                    foreach (var reactor in _reactors)
                     {
-                        foreach (var reactor in _reactors)
-                        {
-                            reactor.Receive(result.Payload!);
-                        }
+                        reactor.Receive(result.Payload!);
                     }
                 }
             }
         }
+    }
 
-        public void AddReactor(ITouchSenderReactor reactor)
-        {
-            _reactors.Add(reactor);
-        }
+    public void AddReactor(ITouchReceiverReactor reactor)
+    {
+        _reactors.Add(reactor);
+    }
+
+    public void AddReactor<T>(Action<T> configureReactor) where T : ITouchReceiverReactor, new()
+    {
+        var reactor = new T();
+        configureReactor(reactor);
+        AddReactor(reactor);
     }
 }
