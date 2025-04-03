@@ -8,9 +8,8 @@ using TouchSenderReceiver.Reactors;
 using TouchSenderReceiver.Services;
 
 using TouchSenderTablet.GUI.Contracts.Services;
+using TouchSenderTablet.GUI.Helpers;
 using TouchSenderTablet.GUI.Models;
-
-using WindowsInput;
 
 namespace TouchSenderTablet.GUI.Services;
 
@@ -18,7 +17,6 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
 {
     private TouchReceiver? _receiver;
     private int _portNumber;
-    static readonly InputSimulator s_inputSimulator = new InputSimulator();
     private readonly ConcurrentDictionary<string, TouchSenderPayload> _payloads = new();
     private const string LatestPayloadKey = "latest";
     private int _currentPayloadId;
@@ -33,22 +31,27 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
             r.OnWhileTouched += (e) =>
             {
                 if (e.Offset is null) return;
-                if (options.LeftClickWhileTouched)
-                {
-                    s_inputSimulator.Mouse.LeftButtonDown();
-                }
                 // Flutterの論理ピクセルは38pxで約1cm
                 // 1cm動かしたら、Sensitivityの値分だけ動かす
                 // https://api.flutter.dev/flutter/dart-ui/FlutterView/devicePixelRatio.html
-                s_inputSimulator.Mouse.MoveMouseBy(
+                MouseHelper.MoveCursor(
                     (int)Math.Round(e.Offset.X * (options.HorizontalSensitivity) / 38.0),
                     (int)Math.Round(e.Offset.Y * (options.VerticalSensitivity) / 38.0));
+            };
+            r.OnTouched += (e) =>
+            {
+                if (options.LeftClickWhileTouched)
+                {
+                    //s_inputSimulator.Mouse.LeftButtonDown();
+                    MouseHelper.LeftClickDown();
+                }
             };
             r.OnReleased += (e) =>
             {
                 if (options.LeftClickWhileTouched)
                 {
-                    s_inputSimulator.Mouse.LeftButtonUp();
+                    //s_inputSimulator.Mouse.LeftButtonUp();
+                    MouseHelper.LeftClickUp();
                 }
             };
         });
