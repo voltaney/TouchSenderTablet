@@ -25,6 +25,9 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
     private const double FlutterPixelPerCm = 38.0;
 
     private int _currentPayloadId;
+    private double _accumulatedX;
+    private double _accumulatedY;
+    private TouchReceiverServiceOptions _options = new();
 
     /// <summary>
     /// ドロップした（処理できなかった）ペイロードの数。スレッドセーフ。
@@ -37,17 +40,20 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
     /// <param name="options"></param>
     public void SetOptions(TouchReceiverServiceOptions options)
     {
-        _portNumber = options.PortNumber;
+        _options = options;
+        _portNumber = _options.PortNumber;
         _receiver = new TouchReceiver();
         _receiver.AddReactor<SingleTouchReactor>((r) =>
         {
             r.OnWhileTouched += (e) =>
             {
-                if (e.Offset is null) return;
-                // 1cm動かしたら、Sensitivityの値分だけ動かす
-                MouseHelper.MoveCursor(
-                    (int)Math.Round(e.Offset.X * (options.HorizontalSensitivity) / FlutterPixelPerCm),
-                    (int)Math.Round(e.Offset.Y * (options.VerticalSensitivity) / FlutterPixelPerCm));
+                if (e.Offset is null)
+                {
+                    _accumulatedX = _accumulatedY = 0;
+                    return;
+                }
+
+                ProcessMouseMovement(e.Offset.X, e.Offset.Y);
             };
             r.OnTouched += (e) =>
             {
@@ -82,6 +88,25 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
         });
     }
 
+    private void ProcessMouseMovement(double deltaX, double deltaY)
+    {
+        // 前回の累積値に現在の差分を加算
+        _accumulatedX += deltaX * _options.HorizontalSensitivity;
+        _accumulatedY += deltaY * _options.VerticalSensitivity;
+        // 小数を含めた移動量を整数に変換
+        int moveX = (int)Math.Floor(_accumulatedX / FlutterPixelPerCm);
+        int moveY = (int)Math.Floor(_accumulatedY / FlutterPixelPerCm);
+        if (moveX != 0 || moveY != 0)
+        {
+            // 1cm動かしたら、Sensitivityの値分だけ動かす
+            MouseHelper.MoveCursor(moveX, moveY);
+
+            // 使用した分だけ累積値を減らす
+            _accumulatedX -= moveX * FlutterPixelPerCm;
+            _accumulatedY -= moveY * FlutterPixelPerCm;
+        }
+    }
+
     /// <summary>
     /// TouchReceiverServiceを開始します。
     /// </summary>
@@ -91,7 +116,7 @@ public class TouchReceiverService(ILogger<TouchReceiverService> logger) : ITouch
     {
         if (_receiver != null)
         {
-            _currentPayloadId = DroppedPayloadCount = 0;
+            _accumulatedX = _accumulatedY = _currentPayloadId = DroppedPayloadCount = 0;
             logger.LogInformation("TouchReceiverService is starting");
             await _receiver.StartAsync(_portNumber, token);
         }
