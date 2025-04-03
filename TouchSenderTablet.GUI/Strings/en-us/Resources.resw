@@ -168,4 +168,62 @@
   <data name="Detail.Text" xml:space="preserve">
     <value>Detail</value>
   </data>
+  <data name="MainExplanation.Text" xml:space="preserve">
+    <value>The cursor moves based on data received from the Touch Sender app.
+Note that if this window is in focus while a touch operation is performed, the cursor may not move smoothly.</value>
+  </data>
+  <data name="MonitorCheckbox.Content" xml:space="preserve">
+    <value>Realtime Monitor</value>
+  </data>
+  <data name="DataReceived.Text" xml:space="preserve">
+    <value>Recieved</value>
+  </data>
+  <data name="DataDropped.Text" xml:space="preserve">
+    <value>Dropped:</value>
+  </data>
+  <data name="ControlPanelHeader.Text" xml:space="preserve">
+    <value>Control Panel</value>
+  </data>
+  <data name="SettingsHeader.Text" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="IpSettings.Header" xml:space="preserve">
+    <value>Local IP Addresses</value>
+  </data>
+  <data name="IpSettings.Description" xml:space="preserve">
+    <value>Set the IP address shown here to TouchSender.</value>
+  </data>
+  <data name="PortNumberSettings.Header" xml:space="preserve">
+    <value>Port Number</value>
+  </data>
+  <data name="PortNumberSettings.Description" xml:space="preserve">
+    <value>Enter the port number you have set for TouchSender. The default value is 50000.</value>
+  </data>
+  <data name="TouchInputsSettings.Header" xml:space="preserve">
+    <value>Touch Inputs Settings</value>
+  </data>
+  <data name="LeftClickWhileTouching.Header" xml:space="preserve">
+    <value>Left click while touching the device</value>
+  </data>
+  <data name="HorizontalMouseSensitivity.Header" xml:space="preserve">
+    <value>Horizontal mouse sensitivity</value>
+  </data>
+  <data name="VerticalMouseSensitivity.Header" xml:space="preserve">
+    <value>Vertical mouse sensitivity</value>
+  </data>
+  <data name="HorizontalMouseSensitivity.Description" xml:space="preserve">
+    <value>Cursor movement (pixels) when touch moves approx. 1 cm</value>
+  </data>
+  <data name="VerticalMouseSensitivity.Description" xml:space="preserve">
+    <value>Cursor movement (pixels) when touch moves approx. 1 cm</value>
+  </data>
+  <data name="Start.Text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Stop.Text" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Open.Text" xml:space="preserve">
+    <value>Open</value>
+  </data>
 </root>

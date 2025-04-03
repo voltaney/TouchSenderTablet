@@ -168,4 +168,62 @@
   <data name="Detail.Text" xml:space="preserve">
     <value>詳細</value>
   </data>
+  <data name="MainExplanation.Text" xml:space="preserve">
+    <value>TouchSenderアプリから受信したデータに基づいてカーソルが移動します。
+タッチ操作中にこのウィンドウにフォーカスがある場合、カーソルがスムーズに移動しないことがあります。</value>
+  </data>
+  <data name="MonitorCheckbox.Content" xml:space="preserve">
+    <value>リアルタイムモニタ</value>
+  </data>
+  <data name="DataReceived.Text" xml:space="preserve">
+    <value>受信しました</value>
+  </data>
+  <data name="DataDropped.Text" xml:space="preserve">
+    <value>ドロップ:</value>
+  </data>
+  <data name="ControlPanelHeader.Text" xml:space="preserve">
+    <value>コントロールパネル</value>
+  </data>
+  <data name="SettingsHeader.Text" xml:space="preserve">
+    <value>オプション</value>
+  </data>
+  <data name="IpSettings.Header" xml:space="preserve">
+    <value>ローカルIPアドレス</value>
+  </data>
+  <data name="IpSettings.Description" xml:space="preserve">
+    <value>ここに表示されているIPアドレスをTouchSenderに設定してください。</value>
+  </data>
+  <data name="PortNumberSettings.Header" xml:space="preserve">
+    <value>ポート番号</value>
+  </data>
+  <data name="PortNumberSettings.Description" xml:space="preserve">
+    <value>TouchSenderに設定しているポート番号を入力してください。デフォルト値は50000です。</value>
+  </data>
+  <data name="TouchInputsSettings.Header" xml:space="preserve">
+    <value>タッチ入力設定</value>
+  </data>
+  <data name="LeftClickWhileTouching.Header" xml:space="preserve">
+    <value>タッチしている間、左クリック</value>
+  </data>
+  <data name="HorizontalMouseSensitivity.Header" xml:space="preserve">
+    <value>水平方向感度</value>
+  </data>
+  <data name="VerticalMouseSensitivity.Header" xml:space="preserve">
+    <value>垂直方向感度</value>
+  </data>
+  <data name="HorizontalMouseSensitivity.Description" xml:space="preserve">
+    <value>タッチが約1cm動いた際の移動距離（ピクセル）</value>
+  </data>
+  <data name="VerticalMouseSensitivity.Description" xml:space="preserve">
+    <value>タッチが約1cm動いた際の移動距離（ピクセル）</value>
+  </data>
+  <data name="Start.Text" xml:space="preserve">
+    <value>スタート</value>
+  </data>
+  <data name="Stop.Text" xml:space="preserve">
+    <value>ストップ</value>
+  </data>
+  <data name="Open.Text" xml:space="preserve">
+    <value>開く</value>
+  </data>
 </root>

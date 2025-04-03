@@ -21,7 +21,7 @@
         <StackPanel x:Name="ContentArea" Spacing="{StaticResource SectionSpacing}">
             <StackPanel>
                 <TextBlock
-                    x:Uid="Settings_Personalization"
+                    x:Uid="Settings_Appearance"
                     Margin="{StaticResource SectionTitleMargin}"
                     Style="{ThemeResource SubtitleTextBlockStyle}" />
                 <toolkit:SettingsCard x:Uid="Settings_Theme" HeaderIcon="{ui:FontIcon Glyph=&#xE790;}">
@@ -47,7 +47,7 @@
                         <StackPanel Orientation="Horizontal" Spacing="12">
                             <ProgressRing IsActive="True" Visibility="{x:Bind ViewModel.ShowLogFileCommand.IsRunning, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
                             <Button Command="{x:Bind ViewModel.ShowLogFileCommand}" Style="{ThemeResource AccentButtonStyle}">
-                                <TextBlock Text="Open" />
+                                <TextBlock x:Uid="Open" />
                             </Button>
                         </StackPanel>
                     </toolkit:SettingsCard>

@@ -38,7 +38,7 @@
             IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
             IsSettingsVisible="True"
             Loaded="NavigationViewControl_Loaded"
-            OpenPaneLength="200"
+            OpenPaneLength="250"
             SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}">
             <NavigationView.MenuItems>
                 <!--
