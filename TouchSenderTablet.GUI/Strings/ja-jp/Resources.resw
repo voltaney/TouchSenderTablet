@@ -229,4 +229,10 @@
   <data name="LogFile.Header" xml:space="preserve">
     <value>ログファイル</value>
   </data>
+  <data name="InvalidDataReceptionError" xml:space="preserve">
+    <value>データフォーマット エラー</value>
+  </data>
+  <data name="InvalidDataReceptionErrorMessage" xml:space="preserve">
+    <value>不正なフォーマットのデータを受信しました。詳しくはログを確認してください。</value>
+  </data>
 </root>

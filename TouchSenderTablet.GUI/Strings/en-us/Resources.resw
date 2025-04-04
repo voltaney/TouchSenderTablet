@@ -229,4 +229,10 @@ Note that if this window is in focus while a touch operation is performed, the c
   <data name="LogFile.Header" xml:space="preserve">
     <value>Log file</value>
   </data>
+  <data name="InvalidDataReceptionError" xml:space="preserve">
+    <value>Data Format Error</value>
+  </data>
+  <data name="InvalidDataReceptionErrorMessage" xml:space="preserve">
+    <value>Incorrectly formatted data received.Please check the log for details.</value>
+  </data>
 </root>

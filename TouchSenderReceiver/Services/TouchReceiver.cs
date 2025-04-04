@@ -9,6 +9,14 @@ namespace TouchSenderReceiver.Services;
 public class TouchReceiver
 {
     protected List<ITouchReceiverReactor> _reactors = [];
+
+    /// <summary>
+    /// UDPで受信したデータを処理する
+    /// </summary>
+    /// <param name="portNumber"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="FormatException"></exception>
     public async Task StartAsync(int portNumber, CancellationToken cancellationToken)
     {
         // UDPでデータを受信
@@ -24,6 +32,11 @@ public class TouchReceiver
                     {
                         reactor.Receive(result.Payload!);
                     }
+                }
+                else
+                {
+                    // 不正なデータを受信した場合
+                    throw new FormatException(result.ErrorMessage);
                 }
             }
         }

@@ -150,11 +150,22 @@ public partial class MainViewModel : ObservableRecipient
         }
         catch (SocketException e)
         {
+            _logger.LogError(e, "SocketException occurred");
             WeakReferenceMessenger.Default.Send(new ShowErrorDialogMessage()
             {
                 Title = "NetworkError".GetLocalized(),
                 Error = e,
                 Message = "NetworkErrorMessage".GetLocalized(),
+            });
+        }
+        catch (FormatException e)
+        {
+            _logger.LogError(e, "FormatException occurred");
+            WeakReferenceMessenger.Default.Send(new ShowErrorDialogMessage()
+            {
+                Title = "InvalidDataReceptionError".GetLocalized(),
+                Error = e,
+                Message = "InvalidDataReceptionErrorMessage".GetLocalized(),
             });
         }
         finally

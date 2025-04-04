@@ -74,6 +74,17 @@ internal class Program
             };
         });
         Console.WriteLine($"Listening on port {portNumber}...");
-        await touchReceiver.StartAsync(portNumber, cancellationToken);
+        try
+        {
+            await touchReceiver.StartAsync(portNumber, cancellationToken);
+        }
+        catch (FormatException e)
+        {
+            Console.WriteLine($"Recevied invalid data: {e.Message}");
+        }
+        finally
+        {
+            s_cts.Cancel();
+        }
     }
 }
