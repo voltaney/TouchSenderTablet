@@ -16,7 +16,7 @@ internal class Program
         await ConsoleApp.RunAsync(args, RunnerAsync);
     }
 
-    static async Task RunnerAsync(int portNumber = 50000, CancellationToken cancellationToken = default)
+    static async Task RunnerAsync(int portNumber = 50000, int sensitivity = 300, bool leftClickWhileTouched = false, CancellationToken cancellationToken = default)
     {
         cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(s_cts.Token, cancellationToken).Token;
 
@@ -28,7 +28,7 @@ internal class Program
             s_cts.Cancel();
         }, cancellationToken).WaitAsync(cancellationToken);
 
-        var touchSenderTask = ListenTouchSenderAsync(portNumber, cancellationToken);
+        var touchSenderTask = ListenTouchSenderAsync(portNumber, sensitivity, leftClickWhileTouched, cancellationToken);
         try
         {
             await Task.WhenAll(touchSenderTask, cancelTask);
@@ -38,7 +38,7 @@ internal class Program
             Console.WriteLine($"Successfully Canceled.");
         }
     }
-    static async Task ListenTouchSenderAsync(int portNumber, CancellationToken cancellationToken)
+    static async Task ListenTouchSenderAsync(int portNumber, int sensitivity, bool leftClickWhileTouched, CancellationToken cancellationToken)
     {
         var touchReceiver = new TouchReceiver();
         var inputSimulator = new InputSimulator();
@@ -49,26 +49,28 @@ internal class Program
                 Console.WriteLine($"Received: {e.Payload}");
             };
         });
-        int sensitivity = 3000;
+        double flutterPixelPerCm = 38.0;
         touchReceiver.AddReactor<SingleTouchReactor>(r =>
         {
             r.OnReleased += (e) =>
             {
-                //Console.WriteLine($"Released!{count++}");
-                inputSimulator.Mouse.LeftButtonUp();
+                if (leftClickWhileTouched)
+                    inputSimulator.Mouse.LeftButtonUp();
             };
             r.OnTouched += (e) =>
             {
-                //Console.WriteLine($"Touched! {count++}");
+                if (leftClickWhileTouched)
+                    inputSimulator.Mouse.LeftButtonDown();
             };
             r.OnWhileTouched += (e) =>
             {
-                //Console.WriteLine($"{e.OffsetRatio}");
-                if (e.OffsetRatio is null) return;
-                inputSimulator.Mouse.LeftButtonDown();
+                if (e.Offset is null)
+                {
+                    return;
+                }
                 inputSimulator.Mouse.MoveMouseBy(
-                    (int)(e.OffsetRatio.X * sensitivity),
-                    (int)(e.OffsetRatio.Y * sensitivity * 0));
+                    (int)(e.Offset.X / flutterPixelPerCm * sensitivity),
+                    (int)(e.Offset.Y / flutterPixelPerCm * sensitivity));
             };
         });
         Console.WriteLine($"Listening on port {portNumber}...");

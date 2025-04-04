@@ -8,7 +8,7 @@ namespace TouchSenderReceiver.Reactors;
 public class SingleTouchReactor : ITouchReceiverReactor
 {
     private SingleTouch? _previous;
-    private SingleTouch? _previousRatio;
+    private readonly SingleTouch? _previousRatio;
     public event Action<SingleTouchEventArgs>? OnWhileTouched;
     public event Action<SingleTouchEventArgs>? OnWhileReleased;
     public event Action<SingleTouchEventArgs>? OnTouched;
@@ -27,9 +27,7 @@ public class SingleTouchReactor : ITouchReceiverReactor
             DeviceWidth = payload.DeviceInfo.Width,
             DeviceHeight = payload.DeviceInfo.Height,
             Current = payload.SingleTouch,
-            CurrentRatio = payload.SingleTouchRatio,
             Previous = _previous,
-            PreviousRatio = _previousRatio
         };
         if (payload.SingleTouch is not null)
         {
@@ -52,6 +50,5 @@ public class SingleTouchReactor : ITouchReceiverReactor
     private void SavePreviousPayload(TouchSenderPayload payload)
     {
         _previous = payload.SingleTouch;
-        _previousRatio = payload.SingleTouchRatio;
     }
 }

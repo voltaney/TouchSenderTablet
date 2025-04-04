@@ -64,14 +64,15 @@ class TouchReceiverCanvasService : ITouchReceiverCanvasService
 
     private void CalculateTouchCircle()
     {
-        if (_currentPayload!.SingleTouchRatio is null)
+        if (_currentPayload!.SingleTouch is null)
         {
             // タッチ位置が存在しない場合は画面外に配置
             TouchCirclePosition = new Point(-_touchCircleSize, -_touchCircleSize);
             return;
         }
-        var ratio = _currentPayload.SingleTouchRatio;
-        TouchCirclePosition = new Point(ratio.X * CanvasSize.Width - _touchCircleSize / 2.0, ratio.Y * CanvasSize.Height - _touchCircleSize / 2.0);
+        var ratioX = _currentPayload.SingleTouch.X / _currentPayload.DeviceInfo.Width;
+        var ratioY = _currentPayload.SingleTouch.Y / _currentPayload.DeviceInfo.Height;
+        TouchCirclePosition = new Point(ratioX * CanvasSize.Width - _touchCircleSize / 2.0, ratioY * CanvasSize.Height - _touchCircleSize / 2.0);
     }
 
     public void SetUpdateHandler(Action<Size, Point, int> updateHandler)
