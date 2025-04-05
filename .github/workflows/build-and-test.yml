@@ -1,0 +1,24 @@
+name: CI(Build and Test)
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # If preinstalled in windows-latest, this step can be skipped
+      # - name: Setup .NET ${{ matrix.dotnet-version }}
+      #   uses: actions/setup-dotnet@v4
+      #   with:
+      #     dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Build
+        run: dotnet build --configuration Release
+
+      # no test implemented yet

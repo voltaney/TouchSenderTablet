@@ -1,0 +1,104 @@
+name: Generate release draft and label PRs
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+  # pull_request event is required only for autolabeler
+  # pull_request:
+  # Only following types are handled by the action, but one can default to all as well
+  # types: [opened, reopened, synchronize]
+  # pull_request_target event is required for autolabeler to support PRs from forks
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  update_release_draft:
+    permissions:
+      # write permission is required to create a github release
+      contents: write
+      # write permission is required for autolabeler
+      # otherwise, read permission is required at least
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Setup Node.js environment
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+      - run: npm install js-yaml
+
+      # ラベルが存在しなければ作成
+      - name: Ensure autolabeler labels exist
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const yaml = require('js-yaml');
+
+            const configPath = '.github/release-drafter.yml';
+            const content = fs.readFileSync(configPath, 'utf8');
+            const config = yaml.load(content);
+
+            const DEFAULT_COLOR = 'ededed';  // 色は最後で指定
+
+            // 既存ラベル一覧を取得
+            const existingLabelsResponse = await github.rest.issues.listLabelsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100,
+            });
+            const existingLabels = new Set(existingLabelsResponse.data.map(label => label.name));
+
+            // autolabeler + exclude-labels のラベルをセットで保持（重複防止）
+            const labelsToEnsure = new Set();
+
+            // autolabelerのラベル追加
+            if (Array.isArray(config.autolabeler)) {
+              for (const rule of config.autolabeler) {
+                if (rule.label) {
+                  labelsToEnsure.add(rule.label);
+                }
+              }
+            }
+
+            // exclude-labelsのラベル追加
+            if (Array.isArray(config['exclude-labels'])) {
+              for (const label of config['exclude-labels']) {
+                labelsToEnsure.add(label);
+              }
+            }
+
+            // ラベル作成処理
+            for (const label of labelsToEnsure) {
+              if (!existingLabels.has(label)) {
+                console.log(`Creating label: ${label} with color ${DEFAULT_COLOR}`);
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label,
+                  color: DEFAULT_COLOR,
+                });
+              } else {
+                console.log(`Label already exists: ${label}`);
+              }
+            }
+
+      # Drafts your next Release notes as Pull Requests are merged into "master"
+      - uses: release-drafter/release-drafter@v6
+        # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
+        # with:
+        #   config-name: my-config.yml
+        #   disable-autolabeler: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
