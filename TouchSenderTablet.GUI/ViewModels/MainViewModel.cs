@@ -113,7 +113,7 @@ public partial class MainViewModel : ObservableRecipient
         _screenOptions = _touchReceiverSettingsService.ScreenOptions;
 
         var candidateIpAddresses = NetworkHelper.GetAllLocalIPv4().ToList();
-        IpAddresses = candidateIpAddresses.Count > 0 ? string.Join(" / ", NetworkHelper.GetAllLocalIPv4()) : "Unknown".GetLocalized();
+        IpAddresses = candidateIpAddresses.Count > 0 ? string.Join(" / ", candidateIpAddresses) : "Unknown".GetLocalized();
     }
 
     private void SetInitialCanvas()
