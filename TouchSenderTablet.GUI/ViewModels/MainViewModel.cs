@@ -112,7 +112,7 @@ public partial class MainViewModel : ObservableRecipient
         _serviceOptions = _touchReceiverSettingsService.ServiceOptions;
         _screenOptions = _touchReceiverSettingsService.ScreenOptions;
 
-        var candidateIpAddresses = NetworkHelper.GetAllLocalIPv4();
+        var candidateIpAddresses = NetworkHelper.GetAllLocalIPv4().ToList();
         IpAddresses = candidateIpAddresses.Count > 0 ? string.Join(" / ", NetworkHelper.GetAllLocalIPv4()) : "Unknown".GetLocalized();
     }
 

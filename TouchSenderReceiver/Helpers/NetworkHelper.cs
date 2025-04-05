@@ -1,4 +1,5 @@
-﻿using System.Net.NetworkInformation;
+﻿using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 
 namespace TouchSenderReceiver.Helpers;
@@ -11,7 +12,7 @@ public class NetworkHelper
     /// </summary>
     /// <param name="networkInterfaceType"></param>
     /// <returns></returns>
-    public static IList<string> GetAllLocalIPv4(NetworkInterfaceType networkInterfaceType = NetworkInterfaceType.Ethernet)
+    public static IList<string> GetAllLocalIPv4ByNIC(NetworkInterfaceType networkInterfaceType = NetworkInterfaceType.Ethernet)
     {
         List<string> ipAddrList = [];
         foreach (NetworkInterface item in NetworkInterface.GetAllNetworkInterfaces())
@@ -28,5 +29,22 @@ public class NetworkHelper
             }
         }
         return ipAddrList;
+    }
+
+    /// <summary>
+    /// Get all local IPv4 addresses of the current machine.
+    /// </summary>
+    public static IEnumerable<string> GetAllLocalIPv4()
+    {
+        string hostname = Dns.GetHostName();
+
+        IPAddress[] adrList = Dns.GetHostAddresses(hostname);
+        foreach (IPAddress address in adrList)
+        {
+            if (address.AddressFamily == AddressFamily.InterNetwork)
+            {
+                yield return address.ToString();
+            }
+        }
     }
 }
