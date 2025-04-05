@@ -8,7 +8,6 @@ namespace TouchSenderReceiver.Reactors;
 public class SingleTouchReactor : ITouchReceiverReactor
 {
     private SingleTouch? _previous;
-    private readonly SingleTouch? _previousRatio;
     public event Action<SingleTouchEventArgs>? OnWhileTouched;
     public event Action<SingleTouchEventArgs>? OnWhileReleased;
     public event Action<SingleTouchEventArgs>? OnTouched;
