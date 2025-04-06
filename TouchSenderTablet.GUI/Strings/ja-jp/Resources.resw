@@ -123,6 +123,9 @@
   <data name="AppDescription" xml:space="preserve">
     <value>TouchSender Tablet</value>
   </data>
+  <data name="Shell_Help.Content" xml:space="preserve">
+    <value>ヘルプ</value>
+  </data>
   <data name="Shell_Main.Content" xml:space="preserve">
     <value>TouchSender タブレット</value>
   </data>
@@ -234,5 +237,21 @@
   </data>
   <data name="InvalidDataReceptionErrorMessage" xml:space="preserve">
     <value>不正なフォーマットのデータを受信しました。詳しくはログを確認してください。</value>
+  </data>
+  <data name="Help_NoDataReceive_Title.Text" xml:space="preserve">
+    <value>データを受信できない</value>
+  </data>
+  <data name="Help_NoDataReceive_Body.Text" xml:space="preserve">
+    <value>「コントロール パネル &gt; システムとセキュリティ &gt; Windows Defender ファイアウォール &gt; 許可されたアプリ」に移動し、
+TouchSenderTablet がファイアウォールを通過できるように許可されていることを確認してください。</value>
+  </data>
+  <data name="Help_MobileApp_Title.Text" xml:space="preserve">
+    <value>送信用のアプリはどこにある？</value>
+  </data>
+  <data name="Help_MobileApp_Body.Text" xml:space="preserve">
+    <value>TouchSenderアプリケーションのGitHubリポジトリを確認してください。</value>
+  </data>
+  <data name="Help_MobileApp_Link.Content" xml:space="preserve">
+    <value>TouchSenderアプリ</value>
   </data>
 </root>
