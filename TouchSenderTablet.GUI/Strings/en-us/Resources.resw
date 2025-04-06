@@ -123,6 +123,9 @@
   <data name="AppDescription" xml:space="preserve">
     <value>TouchSender Tablet</value>
   </data>
+  <data name="Shell_Help.Content" xml:space="preserve">
+    <value>Help</value>
+  </data>
   <data name="Shell_Main.Content" xml:space="preserve">
     <value>TouchSender Tablet</value>
   </data>
@@ -234,5 +237,21 @@ Note that if this window is in focus while a touch operation is performed, the c
   </data>
   <data name="InvalidDataReceptionErrorMessage" xml:space="preserve">
     <value>Incorrectly formatted data received.Please check the log for details.</value>
+  </data>
+  <data name="Help_NoDataReceive_Title.Text" xml:space="preserve">
+    <value>Unable to Receive Data</value>
+  </data>
+  <data name="Help_NoDataReceive_Body.Text" xml:space="preserve">
+    <value>Please review your firewall settings to ensure the software is not being blocked.
+Go to `Control Panel &gt; System and Security &gt; Windows Defender Firewall &gt; Allowed apps`, and make sure TouchSenderTablet is allowed through the firewall.</value>
+  </data>
+  <data name="Help_MobileApp_Title.Text" xml:space="preserve">
+    <value>Where Can I Find the Sending Application?</value>
+  </data>
+  <data name="Help_MobileApp_Body.Text" xml:space="preserve">
+    <value>Please check the GitHub repository for the TouchSender application.</value>
+  </data>
+  <data name="Help_MobileApp_Link.Content" xml:space="preserve">
+    <value>TouchSender App</value>
   </data>
 </root>
