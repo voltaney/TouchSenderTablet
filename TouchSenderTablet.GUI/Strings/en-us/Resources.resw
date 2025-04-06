@@ -144,6 +144,12 @@
   <data name="Settings_About.Text" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="Settings_About_GitHubRepository.Header" xml:space="preserve">
+    <value>GitHub Repository</value>
+  </data>
+  <data name="Settings_About_GitHubIssues.Header" xml:space="preserve">
+    <value>Report a bug or send feedback</value>
+  </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
     <value>TODO: Replace with your app description.</value>
   </data>
