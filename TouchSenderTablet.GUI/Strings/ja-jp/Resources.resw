@@ -148,7 +148,7 @@
     <value>GitHubリポジトリ</value>
   </data>
   <data name="Settings_About_GitHubIssues.Header" xml:space="preserve">
-    <value>バグまたはフィードバックの送信</value>
+    <value>バグ報告またはフィードバックの送信</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
     <value>TODO: Replace with your app description.</value>
