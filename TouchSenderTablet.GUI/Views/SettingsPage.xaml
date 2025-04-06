@@ -51,6 +51,20 @@
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             IsTextSelectionEnabled="True"
                             Text="{x:Bind ViewModel.Version}" />
+                        <toolkit:SettingsExpander.Items>
+                            <toolkit:SettingsCard
+                                x:Name="GitHubRepositorySettingsCard"
+                                x:Uid="Settings_About_GitHubRepository"
+                                ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
+                                Click="GitHubRepositorySettingsCard_Click"
+                                IsClickEnabled="True" />
+                            <toolkit:SettingsCard
+                                x:Name="GitHubIssuesSettingsCard"
+                                x:Uid="Settings_About_GitHubIssues"
+                                ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
+                                Click="GitHubIssuesSettingsCard_Click"
+                                IsClickEnabled="True" />
+                        </toolkit:SettingsExpander.Items>
                     </toolkit:SettingsExpander>
                     <toolkit:SettingsCard x:Uid="LogFile" HeaderIcon="{ui:FontIcon Glyph=&#xE8E5;}">
                         <StackPanel Orientation="Horizontal" Spacing="12">

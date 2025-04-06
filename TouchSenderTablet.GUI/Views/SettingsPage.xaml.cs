@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Xaml;
+﻿using System.Diagnostics;
+
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 using TouchSenderTablet.GUI.Helpers;
@@ -27,5 +29,23 @@ public sealed partial class SettingsPage : Page
         {
             ViewModel.SwitchThemeCommand.Execute(EnumHelper.GetEnum<ElementTheme>(selectedTheme));
         }
+    }
+
+    private void GitHubRepositorySettingsCard_Click(object sender, RoutedEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = "https://github.com/voltaney/TouchSenderTablet",
+            UseShellExecute = true,
+        });
+    }
+
+    private void GitHubIssuesSettingsCard_Click(object sender, RoutedEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = "https://github.com/voltaney/TouchSenderTablet/issues",
+            UseShellExecute = true,
+        });
     }
 }
