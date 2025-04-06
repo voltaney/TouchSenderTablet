@@ -1,12 +1,14 @@
 # <img src="TouchSenderTablet.GUI/Assets/StoreLogo.scale-100.png" height="25" /> TouchSenderTablet
 
-This software emulates mouse operations on Windows, using the touch status transmitted from the [TouchSender](https://github.com/voltaney/flutter-touch-sender) app.
+This software emulates mouse operations on Windows, using the touch status transmitted from the [TouchSender](https://github.com/voltaney/touch-sender) app.
 It also aims to provide real-time, high-precision input, making it suitable for applications like rhythm games where timing and accuracy are essential.
 
 
 <img src="docs/assets/main_page.jpg" width="600" />
 
 ## Installation
+
+Before installing, ensure that you have [TouchSender](https://github.com/voltaney/touch-sender) app installed on your device.
 
 1. Download the latest release from the [GitHub Release Page](https://github.com/voltaney/TouchSenderTablet/releases).
 2. Extract the downloaded zip file to a location of your choice.
